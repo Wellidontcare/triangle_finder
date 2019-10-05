@@ -5,21 +5,18 @@ TriangleFinderModel::TriangleFinderModel(){}
 void TriangleFinderModel::load_image(const cv::Mat &image)
 {
  image.copyTo(original_image_);
- original_image_.copyTo(preview_image_);
- {
- int cols = preview_image_.cols;
- int rows = preview_image_.rows;
+ //load a scaled down preview image
 
- double x_scale = static_cast<double>(cols) / (10 * cols);
- double y_scale = static_cast<double>(rows) / (10 * rows);
- cv::resize(preview_image_, preview_image_, cv::Size(), x_scale, y_scale);
- }
+ double ratio = static_cast<double>(original_image_.cols) / original_image_.rows;
+ int width = static_cast<int>(500*ratio);
+ int height = 500;
+ cv::resize(original_image_, preview_image_, cv::Size(width, height));
 }
 
 cv::Mat TriangleFinderModel::generate_canny_preview()
 {
-    cv::Canny(original_image_, preview_image_, lower_canny_threshold_, upper_canny_threshold_);
-    return preview_image_;
+    cv::Canny(preview_image_, canny_preview_image_, lower_canny_threshold_, upper_canny_threshold_);
+    return canny_preview_image_;
 }
 
 void TriangleFinderModel::set_upper_canny_threshold(const int &val)

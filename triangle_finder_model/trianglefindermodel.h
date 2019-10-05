@@ -24,6 +24,7 @@ public:
 private:
     cv::Mat original_image_;
     cv::Mat preview_image_;
+    cv::Mat canny_preview_image_;
 
     int upper_canny_threshold_;
     int lower_canny_threshold_;

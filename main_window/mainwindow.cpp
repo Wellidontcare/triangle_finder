@@ -15,7 +15,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->adjustCannyUpperSpinbox->setRange(0, 255);
     ui->adjustCannyLowerSpinbox->setRange(0, 255);
 
-    //************************DRAG AND DROP****************************//
+    //************************DRAG AND DROP**********************************//
     //image data drop -> load image
     connect(ui->imageGraphicsView,
             &DropEnabledGraphicsView::successfull_drop_image_data_event,
@@ -35,7 +35,7 @@ MainWindow::MainWindow(QWidget *parent)
             ui->imageGraphicsView,
             &DropEnabledGraphicsView::update_scene_action);
 
-    //***********************CANNY EDGE DETECTOR PREVIEW****************//
+    //***********************CANNY EDGE DETECTOR PREVIEW*********************//
     //show preview for canny upper threshold
     connect(ui->adjustCannyUpperHorizontalSlider,
             &QSlider::valueChanged, triangle_finder_,
@@ -46,6 +46,7 @@ MainWindow::MainWindow(QWidget *parent)
             &QSlider::valueChanged, triangle_finder_,
             &TriangleFinderAdapter::canny_lower_threshold_action);
 
+     //***********************SPINBOX AND SLIDER SYNC************************//
     //link spinbox and slider and vice versa
     connect(ui->adjustCannyLowerHorizontalSlider,
             &QSlider::valueChanged,
@@ -59,16 +60,23 @@ MainWindow::MainWindow(QWidget *parent)
 
 
     connect(ui->adjustCannyUpperSpinbox,
-            //explicit cast is required because value changed function is overloaded
+            /*explicit cast is required because value changed function is
+             *  overloaded*/
             static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),
             ui->adjustCannyUpperHorizontalSlider,
             &QSlider::setValue);
 
     connect(ui->adjustCannyLowerSpinbox,
-            //explicit cast is required because value changed function is overloaded
+            /*explicit cast is required because value changed function is
+             *  overloaded*/
             static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),
             ui->adjustCannyLowerHorizontalSlider,
             &QSlider::setValue);
+
+    //***************************RESET VIEW**********************************//
+    connect(ui->resetViewPushbutton,
+            &QPushButton::pressed, triangle_finder_,
+            &TriangleFinderAdapter::show_original);
 
 
 }

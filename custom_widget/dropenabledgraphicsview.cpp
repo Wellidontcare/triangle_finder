@@ -3,6 +3,8 @@
 DropEnabledGraphicsView::DropEnabledGraphicsView(QWidget* parent) : QGraphicsView(parent)
 {
     setAcceptDrops(true);
+    setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 }
 
 void DropEnabledGraphicsView::dragEnterEvent(QDragEnterEvent *event)
@@ -50,16 +52,12 @@ void DropEnabledGraphicsView::resizeEvent(QResizeEvent *event)
     event->accept();
 }
 
-void DropEnabledGraphicsView::update_scene_action(QGraphicsScene *scene)
+void DropEnabledGraphicsView::update_scene_action(QGraphicsScene *scn)
 {
-    setScene(scene);
-    fitInView(scene->itemsBoundingRect(), Qt::KeepAspectRatio);
+    setScene(scn);
+    fitInView(scene()->itemsBoundingRect(), Qt::KeepAspectRatio);
 }
 
-void DropEnabledGraphicsView::update_resize_action()
-{
-    fitInView(current_scene_.itemsBoundingRect(), Qt::KeepAspectRatio);
-}
 
 void DropEnabledGraphicsView::dragMoveEvent(QDragMoveEvent *event)
 {

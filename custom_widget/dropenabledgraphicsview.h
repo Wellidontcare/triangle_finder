@@ -16,7 +16,6 @@ public:
 
 public slots:
     void update_scene_action(QGraphicsScene* scene);
-    void update_resize_action();
     void dropEvent(QDropEvent *event) override;
 
 signals:
