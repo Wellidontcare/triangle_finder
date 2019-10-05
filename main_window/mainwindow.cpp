@@ -14,6 +14,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->adjustCannyLowerHorizontalSlider->setRange(0, 255);
     ui->adjustCannyUpperSpinbox->setRange(0, 255);
     ui->adjustCannyLowerSpinbox->setRange(0, 255);
+    setWindowTitle("Triangle Finder v0.1");
 
     //************************DRAG AND DROP**********************************//
     //image data drop -> load image

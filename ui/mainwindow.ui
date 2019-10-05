@@ -42,7 +42,7 @@
          <item>
           <widget class="QPushButton" name="comapreMethodsPushButton">
            <property name="toolTip">
-            <string>Finds tirangles in all six samples and shows the time meassured side by side+#</string>
+            <string>Finds triangles in all six samples and shows the time meassured side by side</string>
            </property>
            <property name="text">
             <string>Compare Methods</string>
