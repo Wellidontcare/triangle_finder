@@ -16,11 +16,17 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    custom_widget/dropenabledgraphicsview.cpp \
     main.cpp \
-    main_window/mainwindow.cpp
+    main_window/mainwindow.cpp \
+    triangle_finder_adapter/trianglefinderadapter.cpp \
+    triangle_finder_model/trianglefindermodel.cpp
 
 HEADERS += \
-    main_window/mainwindow.h
+    custom_widget/dropenabledgraphicsview.h \
+    main_window/mainwindow.h \
+    triangle_finder_adapter/trianglefinderadapter.h \
+    triangle_finder_model/trianglefindermodel.h
 
 FORMS += \
     ui/mainwindow.ui
@@ -29,3 +35,5 @@ FORMS += \
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+include(opencv.pri)
