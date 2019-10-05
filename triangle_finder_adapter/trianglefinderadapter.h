@@ -2,6 +2,7 @@
 #define TRIANGLEFINDERADAPTER_H
 #include <vector>
 
+#include <QDebug>
 #include <QDropEvent>
 #include <QFileDialog>
 #include <QGraphicsScene>
@@ -23,8 +24,10 @@ public:
     ~TriangleFinderAdapter();
 
 public slots:
-    void drag_and_drop_image_data(const QVariant& data);
-    void drag_and_drop_image_file(const QString& file_path);
+    void drag_and_drop_image_data_action(const QVariant& data);
+    void drag_and_drop_image_file_action(const QString& file_path);
+    void canny_upper_threshold_action(const int& upper);
+    void canny_lower_threshold_action(const int& lower);
 
 signals:
     void scene_changed(QGraphicsScene*);
@@ -37,9 +40,13 @@ private:
     cv::Mat current_mat_;
     QGraphicsScene current_scene_;
 
-    //conversion functions implementation based on https://qtandopencv.blogspot.com/2013/08/how-to-convert-between-cvmat-and-qimage.html
-    QImage mat_to_qimage(cv::Mat& mat, QImage::Format& format);
+    /*conversion functions implementation based on
+    https://qtandopencv.blogspot.com/2013/08/how-to-convert-between-cvmat-and-qimage.html*/
+    QImage mat_to_qimage(cv::Mat& mat, const QImage::Format& format);
     cv::Mat qimage_to_mat(QImage& qimage, int format);
+
+    //helper functions
+    void set_scene();
 
 
 };

@@ -3,6 +3,7 @@
 #include <iostream>
 #include <string>
 #include "opencv2/imgcodecs.hpp"
+#include "opencv2/imgproc.hpp"
 
 
 class TriangleFinderModel
@@ -13,11 +14,19 @@ public:
 
 //memberfunctions
     void load_image(const cv::Mat& image);
-    void load_image(const std::string& file_path);
+    cv::Mat generate_canny_preview();
+
+//setter
+    void set_upper_canny_threshold(const int& val);
+    void set_lower_canny_threshold(const int& val);
+
 
 private:
-    cv::Mat image_;
+    cv::Mat original_image_;
+    cv::Mat preview_image_;
 
+    int upper_canny_threshold_;
+    int lower_canny_threshold_;
 };
 
 #endif // TRIANGLEFINDERMODEL_H

@@ -18,7 +18,7 @@ void DropEnabledGraphicsView::dropEvent(QDropEvent *event)
     if(event->mimeData()->hasImage()){
         event->acceptProposedAction();
         current_pixmap_ = QPixmap(qvariant_cast<QPixmap>(event->mimeData()->imageData()));
-        emit successfull_drop_image_data(event->mimeData()->imageData());
+        emit successfull_drop_image_data_event(event->mimeData()->imageData());
         valid_drop = true;
     }
     if(event->mimeData()->hasText()){
@@ -29,23 +29,36 @@ void DropEnabledGraphicsView::dropEvent(QDropEvent *event)
             file_path = text.remove(0, 8);
             if(text.endsWith("jpg") || text.endsWith("png") || text.endsWith("bmp")){
                 current_pixmap_.load(file_path);
-                emit successfull_drop_image_file(file_path);
+                emit successfull_drop_image_file_event(file_path);
                 valid_drop = true;
             }
         }
     }
     if(!valid_drop){
-        QMessageBox::warning(this,
-                             tr("Not an image"),
-                             tr("Do you promise to only drop image files into the viewer? (*.jpg, *.png, *.bmp"),
-                             QMessageBox::Yes);
+        QMessageBox msgbox("Not an image", "Do you promise to only drop image files into the viewer? (*.jpg, *.png, *.bmp)", QMessageBox::Icon::Warning, 0, 0, 0);
+        msgbox.addButton("I promise!", QMessageBox::YesRole);
+        msgbox.exec();
         return;
     }
+}
 
-current_scene_.clear();
-current_scene_.addPixmap(current_pixmap_);
-setScene(&current_scene_);
-fitInView(current_scene_.itemsBoundingRect(),Qt::KeepAspectRatio);
+void DropEnabledGraphicsView::resizeEvent(QResizeEvent *event)
+{
+    if(scene()){
+    fitInView(scene()->itemsBoundingRect(), Qt::KeepAspectRatio);
+    }
+    event->accept();
+}
+
+void DropEnabledGraphicsView::update_scene_action(QGraphicsScene *scene)
+{
+    setScene(scene);
+    fitInView(scene->itemsBoundingRect(), Qt::KeepAspectRatio);
+}
+
+void DropEnabledGraphicsView::update_resize_action()
+{
+    fitInView(current_scene_.itemsBoundingRect(), Qt::KeepAspectRatio);
 }
 
 void DropEnabledGraphicsView::dragMoveEvent(QDragMoveEvent *event)
