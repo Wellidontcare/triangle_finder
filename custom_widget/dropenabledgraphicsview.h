@@ -1,6 +1,12 @@
 #ifndef DROPENABLEDGRAPHICSVIEW_H
 #define DROPENABLEDGRAPHICSVIEW_H
 
+#ifdef WIN32
+constexpr int FILE_PREFIX = 8;
+#else
+constexpr int FILE_PREFIX = 7;
+#endif
+
 #include <QDebug>
 
 #include <QGraphicsView>

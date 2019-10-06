@@ -18,7 +18,6 @@ void DropEnabledGraphicsView::dropEvent(QDropEvent *event)
 {
     bool valid_drop = false;
     if(event->mimeData()->hasImage()){
-        qDebug() << "Has image";
         event->acceptProposedAction();
         current_pixmap_ = QPixmap(qvariant_cast<QPixmap>(event->mimeData()->imageData()));
         emit successfull_drop_image_data_event(event->mimeData()->imageData());
@@ -29,10 +28,9 @@ void DropEnabledGraphicsView::dropEvent(QDropEvent *event)
         //better build a mimedata parser
         QString text = event->mimeData()->urls()[0].toString();
         QString file_path;
-        qDebug() << text;
         //handle drop from file explorer
         if(text.startsWith("file:///")){
-            file_path = text.remove(0, 7);
+            file_path = text.remove(0, FILE_PREFIX);
             if(text.endsWith("jpg") || text.endsWith("png") || text.endsWith("bmp")){
                 current_pixmap_.load(file_path);
                 emit successfull_drop_image_file_event(file_path);
