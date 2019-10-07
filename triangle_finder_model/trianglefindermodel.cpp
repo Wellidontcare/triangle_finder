@@ -53,15 +53,18 @@ TriangleFinderInfoContainer TriangleFinderModel::find_triangles_approx_poly(cons
     }
 
     //filter small triangles (probably false positives)
-    auto is_too_small = [](const std::vector<cv::Point>& triangle){
-        return cv::arcLength(triangle, true) < 20 && cv::contourArea(triangle) < 20;
+    auto is_not_too_small = [](const std::vector<cv::Point>& triangle){
+        return !(cv::arcLength(triangle, true) < 40 || cv::contourArea(triangle) < 100);
     };
 
-    std::remove_if(triangles.begin(), triangles.end(), is_too_small);
+    std::vector<std::vector<cv::Point>> filtered_triangles;
+
+    std::copy_if(triangles.begin(), triangles.end(), std::back_inserter(filtered_triangles), is_not_too_small);
 
     cv::Mat final_image(preview_image_.clone());
 
-    cv::drawContours(final_image, triangles, -1, cv::Scalar(0, 255, 0), 4, cv::LINE_AA);
+    if(!triangles.empty())
+        cv::drawContours(final_image, filtered_triangles, -1, cv::Scalar(0, 255, 0), 4, cv::LINE_AA);
 
     auto end = std::chrono::high_resolution_clock::now();
     int elapsed = static_cast<int>(std::chrono::duration_cast<std::chrono::microseconds>(end - start).count());
