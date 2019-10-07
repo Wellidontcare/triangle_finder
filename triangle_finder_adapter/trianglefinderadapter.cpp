@@ -3,7 +3,6 @@
 TriangleFinderAdapter::TriangleFinderAdapter(QWidget* parent)
     : parent_(parent) {}
 
-TriangleFinderAdapter::~TriangleFinderAdapter() {}
 
 
 //***************************DRAG AND DROP***********************************//
@@ -27,21 +26,45 @@ void TriangleFinderAdapter::drag_and_drop_image_file_action(const QString &file_
     set_scene();
 }
 
+void TriangleFinderAdapter::method1_checked()
+{
+    selected_method_ = 1;
+}
+
+void TriangleFinderAdapter::method2_checked()
+{
+    selected_method_ = 2;
+}
+
 
 //***************************CANNY EDGE DETECTOR PREVIEW*********************//
-void TriangleFinderAdapter::canny_upper_threshold_action(const int& val)
+void TriangleFinderAdapter::canny_upper_threshold_action(int upper)
 {
-    model_.set_upper_canny_threshold(val);
+    model_.set_upper_canny_threshold(upper);
     model_.generate_canny_preview().copyTo(current_mat_);
     current_image_ = mat_to_qimage(current_mat_, QImage::Format_Grayscale8);
     current_pixmap_ = QPixmap::fromImage(current_image_);
     set_scene();
 }
-void TriangleFinderAdapter::canny_lower_threshold_action(const int &val)
+void TriangleFinderAdapter::canny_lower_threshold_action(int lower)
 {
-    model_.set_lower_canny_threshold(val);
+    model_.set_lower_canny_threshold(lower);
     model_.generate_canny_preview().copyTo(current_mat_);
     current_image_ = mat_to_qimage(current_mat_, QImage::Format_Grayscale8);
+    current_pixmap_ = QPixmap::fromImage(current_image_);
+    set_scene();
+}
+
+void TriangleFinderAdapter::find_triangles(bool show_steps)
+{
+    TriangleFinderInfoContainer triangle_info;
+    if(selected_method_ == 1)
+       triangle_info  = model_.find_triangles_approx_poly(show_steps);
+    if(selected_method_ == 2)
+        triangle_info = model_.find_triangles_shape_factor(show_steps);
+    current_mat_ = triangle_info.final_image.clone();
+    cv::cvtColor(current_mat_, current_mat_, cv::COLOR_BGR2RGB);
+    current_image_ = mat_to_qimage(current_mat_, QImage::Format_RGB888);
     current_pixmap_ = QPixmap::fromImage(current_image_);
     set_scene();
 }
@@ -55,16 +78,16 @@ void TriangleFinderAdapter::show_original()
 
 
 //*******************************HELPER FUNCTIONS**********************************//
-QImage TriangleFinderAdapter::mat_to_qimage(cv::Mat &mat, const QImage::Format &format)
+QImage TriangleFinderAdapter::mat_to_qimage(const cv::Mat &mat, const QImage::Format& format)
 {
-    return QImage(mat.data, mat.cols, mat.rows, static_cast<int>(mat.step), format);
+    return QImage(mat.data, mat.cols, mat.rows, static_cast<int>(mat.step), format).copy();
 }
 
-cv::Mat TriangleFinderAdapter::qimage_to_mat(QImage &qimage, int format)
+cv::Mat TriangleFinderAdapter::qimage_to_mat(const QImage &qimage, int format)
 {
     return cv::Mat(qimage.height(), qimage.width(), format,
                    const_cast<uchar*>(qimage.bits()),
-                   static_cast<size_t>(qimage.bytesPerLine()));
+                   static_cast<size_t>(qimage.bytesPerLine())).clone();
 }
 
 void TriangleFinderAdapter::set_scene()

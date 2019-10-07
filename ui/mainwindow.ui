@@ -64,7 +64,7 @@
             <item>
              <layout class="QVBoxLayout" name="verticalLayout_3">
               <item>
-               <widget class="QRadioButton" name="radioButton">
+               <widget class="QRadioButton" name="method1RadioButton">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
                   <horstretch>0</horstretch>
@@ -80,7 +80,7 @@
                </widget>
               </item>
               <item>
-               <widget class="QRadioButton" name="radioButton_2">
+               <widget class="QRadioButton" name="method2RadioButton">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
                   <horstretch>0</horstretch>

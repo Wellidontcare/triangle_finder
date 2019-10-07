@@ -1,37 +1,40 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
+constexpr int MAX_CANNY_VAL = 255;
+constexpr int MIN_CANNY_VAL = 0;
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
-    , triangle_finder_(new TriangleFinderAdapter(this))
+    ,triangle_finder_(this)
 {
     ui->setupUi(this);
     setAcceptDrops(true);
 
     //set range for slider and spinbox
-    ui->adjustCannyUpperHorizontalSlider->setRange(0, 255);
-    ui->adjustCannyLowerHorizontalSlider->setRange(0, 255);
-    ui->adjustCannyUpperSpinbox->setRange(0, 255);
-    ui->adjustCannyLowerSpinbox->setRange(0, 255);
+    ui->adjustCannyUpperHorizontalSlider->setRange(MIN_CANNY_VAL, MAX_CANNY_VAL);
+    ui->adjustCannyLowerHorizontalSlider->setRange(MIN_CANNY_VAL, MAX_CANNY_VAL);
+    ui->adjustCannyUpperSpinbox->setRange(MIN_CANNY_VAL, MAX_CANNY_VAL);
+    ui->adjustCannyLowerSpinbox->setRange(MIN_CANNY_VAL, MAX_CANNY_VAL);
     setWindowTitle("Triangle Finder v0.1");
 
     //************************DRAG AND DROP**********************************//
     //image data drop -> load image
     connect(ui->imageGraphicsView,
             &DropEnabledGraphicsView::successfull_drop_image_data_event,
-            triangle_finder_,
+            &triangle_finder_,
             &TriangleFinderAdapter::drag_and_drop_image_data_action);
 
     //image file drop -> load image
     connect(ui->imageGraphicsView,
             &DropEnabledGraphicsView::successfull_drop_image_file_event,
-            triangle_finder_,
+            &triangle_finder_,
             &TriangleFinderAdapter::drag_and_drop_image_file_action);
 
 
     //update viewer when image changed
-    connect(triangle_finder_,
+    connect(&triangle_finder_,
             &TriangleFinderAdapter::scene_changed,
             ui->imageGraphicsView,
             &DropEnabledGraphicsView::update_scene_action);
@@ -39,12 +42,12 @@ MainWindow::MainWindow(QWidget *parent)
     //***********************CANNY EDGE DETECTOR PREVIEW*********************//
     //show preview for canny upper threshold
     connect(ui->adjustCannyUpperHorizontalSlider,
-            &QSlider::valueChanged, triangle_finder_,
+            &QSlider::valueChanged, &triangle_finder_,
             &TriangleFinderAdapter::canny_upper_threshold_action);
 
     //show preview for canny lower threshold
     connect(ui->adjustCannyLowerHorizontalSlider,
-            &QSlider::valueChanged, triangle_finder_,
+            &QSlider::valueChanged, &triangle_finder_,
             &TriangleFinderAdapter::canny_lower_threshold_action);
 
      //***********************SPINBOX AND SLIDER SYNC************************//
@@ -76,8 +79,28 @@ MainWindow::MainWindow(QWidget *parent)
 
     //***************************RESET VIEW**********************************//
     connect(ui->resetViewPushbutton,
-            &QPushButton::pressed, triangle_finder_,
+            &QPushButton::pressed, &triangle_finder_,
             &TriangleFinderAdapter::show_original);
+
+    //***********************METHOD SELECTOR RADIO BUTTON*********************//
+    connect(ui->method1RadioButton,
+            &QRadioButton::pressed,
+            &triangle_finder_,
+            &TriangleFinderAdapter::method1_checked);
+
+    connect(ui->method2RadioButton,
+            &QRadioButton::pressed,
+            &triangle_finder_,
+            &TriangleFinderAdapter::method2_checked);
+
+    //***************************FIND TRIANGLES BUTTON************************//
+    connect(ui->findTrianglesPushButton,
+            &QPushButton::pressed,
+            [this](){
+                    triangle_finder_.find_triangles(ui->showStepsCheckBox->isChecked());
+                     }
+    );
+
 
 
 }
@@ -85,6 +108,6 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow()
 {
     delete ui;
-    delete triangle_finder_;
+    delete step_window_;
 }
 
