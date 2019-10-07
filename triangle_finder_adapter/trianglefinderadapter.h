@@ -14,7 +14,6 @@
 #include <QMimeData>
 
 #include "triangle_finder_model/trianglefindermodel.h"
-#include "custom_widget/stepwindow.h"
 #include "opencv2/imgcodecs.hpp"
 #include "opencv2/core.hpp"
 #include "opencv2/imgproc.hpp"
@@ -43,8 +42,6 @@ public slots:
 
 signals:
     void scene_changed(QGraphicsScene*);
-
-    void step_window_created(StepWindow *);
 
 private:
     QWidget* parent_;

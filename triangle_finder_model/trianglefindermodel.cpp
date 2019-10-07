@@ -66,11 +66,17 @@ TriangleFinderInfoContainer TriangleFinderModel::find_triangles_approx_poly(cons
     auto end = std::chrono::high_resolution_clock::now();
     int elapsed = static_cast<int>(std::chrono::duration_cast<std::chrono::microseconds>(end - start).count());
 
-    return {steps, final_image, triangles, elapsed};
+    TriangleFinderInfoContainer ret_val;
+    ret_val.steps = steps;
+    ret_val.final_image = final_image.clone();
+    ret_val.triangle_locations = triangles;
+    ret_val.time_taken_my = elapsed;
+    return ret_val;
 }
 
 TriangleFinderInfoContainer TriangleFinderModel::find_triangles_shape_factor(const bool &show_steps)
 {
+    std::cout << show_steps;
     return {};
 }
 

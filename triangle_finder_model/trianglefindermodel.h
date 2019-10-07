@@ -3,7 +3,7 @@
 #include <chrono>
 #include <iostream>
 #include <string>
-#include "triangle_finder_model/triangleinfocontainer.h"
+#include "triangleinfocontainer.h"
 #include "opencv2/imgcodecs.hpp"
 #include "opencv2/imgproc.hpp"
 #include "opencv2/highgui.hpp"
