@@ -42,20 +42,21 @@ public slots:
 
 signals:
     void scene_changed(QGraphicsScene*);
+    void steps_are_ready(std::vector<QImage>* steps);
 
 private:
     QWidget* parent_;
     TriangleFinderModel model_;
     QPixmap current_pixmap_;
-    QImage current_image_;
     cv::Mat current_mat_;
     QGraphicsScene current_scene_;
     QPixmap original_pixmap_;
+
+    std::vector<QImage> steps_;
     int selected_method_ = 0;
     bool meassure_performance = false;
 
     std::vector<cv::Point> found_triangles_;
-    std::vector<QPixmap> steps_;
     QPixmap final_image_;
 
     /*conversion functions implementation based on

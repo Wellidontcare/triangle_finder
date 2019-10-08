@@ -4,6 +4,7 @@
 #include <QMainWindow>
 
 #include "custom_widget/dropenabledgraphicsview.h"
+#include "custom_widget/stepwindow.h"
 #include "triangle_finder_adapter/trianglefinderadapter.h"
 
 QT_BEGIN_NAMESPACE
@@ -21,5 +22,7 @@ public:
 private:
     Ui::MainWindow* ui;
     TriangleFinderAdapter triangle_finder_;
+    StepWindow* step_window_;
+
 };
 #endif // MAINWINDOW_H

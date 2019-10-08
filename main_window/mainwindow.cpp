@@ -8,6 +8,7 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
     ,triangle_finder_(this)
+    ,step_window_(new StepWindow(this))
 {
     ui->setupUi(this);
     setAcceptDrops(true);
@@ -100,6 +101,8 @@ MainWindow::MainWindow(QWidget *parent)
                     triangle_finder_.find_triangles(ui->showStepsCheckBox->isChecked());
                      }
     );
+
+        connect(&triangle_finder_, &TriangleFinderAdapter::steps_are_ready, step_window_, &StepWindow::update_steps);
 
 
 
