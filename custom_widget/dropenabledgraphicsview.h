@@ -1,18 +1,16 @@
 #ifndef DROPENABLEDGRAPHICSVIEW_H
 #define DROPENABLEDGRAPHICSVIEW_H
 
+#include <QGraphicsView>
+#include <QDragEnterEvent>
+#include <QMessageBox>
+#include <QMimeData>
+
 #ifdef WIN32
 constexpr int FILE_PREFIX = 8;
 #else
 constexpr int FILE_PREFIX = 7;
 #endif
-
-#include <QDebug>
-
-#include <QGraphicsView>
-#include <QMimeData>
-#include <QDragEnterEvent>
-#include <QMessageBox>
 
 class DropEnabledGraphicsView : public QGraphicsView
 {

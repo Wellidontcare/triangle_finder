@@ -30,7 +30,7 @@ HEADERS += \
     triangle_finder_adapter/trianglefinderadapter.h \
     triangle_finder_model/trianglefindermodel.h \
     triangle_finder_model/triangleinfocontainer.h \
-    custom_widget//stepwindow.h
+    custom_widget/stepwindow.h
 
 FORMS += \
     ui/mainwindow.ui
@@ -43,4 +43,4 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 include(opencv.pri)
 
 RESOURCES += \
-    resource.qrc
+    resources.qrc

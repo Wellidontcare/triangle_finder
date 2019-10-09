@@ -1,7 +1,10 @@
 #include "trianglefinderadapter.h"
 
 TriangleFinderAdapter::TriangleFinderAdapter(QWidget* parent)
-    : parent_(parent) {}
+    : parent_(parent) {
+    load_sample(0);
+
+}
 
 
 
@@ -9,11 +12,11 @@ TriangleFinderAdapter::TriangleFinderAdapter(QWidget* parent)
 void TriangleFinderAdapter::drag_and_drop_image_data_action(const QVariant& data)
 {
     QImage tmp_image = qvariant_cast<QImage>(data);
-    cv::Mat mat = qimage_to_mat(tmp_image, CV_8UC3);
-    cv::cvtColor(mat, mat, cv::COLOR_RGB2BGR);
-    model_.load_image(mat);
+    cv::Mat tmp_mat = qimage_to_mat(tmp_image, CV_8UC3);
+    cv::cvtColor(tmp_mat, current_mat_, cv::COLOR_RGB2BGR);
+    model_.load_image(current_mat_);
     current_pixmap_ = qvariant_cast<QPixmap>(data);
-    original_pixmap_ = current_pixmap_;
+    original_pixmap_ = current_pixmap_.copy();
     set_scene();
 }
 
@@ -26,12 +29,12 @@ void TriangleFinderAdapter::drag_and_drop_image_file_action(const QString &file_
     set_scene();
 }
 
-void TriangleFinderAdapter::method1_checked()
+void TriangleFinderAdapter::method1_checked_action()
 {
     selected_method_ = 1;
 }
 
-void TriangleFinderAdapter::method2_checked()
+void TriangleFinderAdapter::method2_checked_action()
 {
     selected_method_ = 2;
 }
@@ -57,9 +60,13 @@ void TriangleFinderAdapter::canny_lower_threshold_action(int lower)
 
 
 //*************************FIND TRIANGLES ADAPTER****************************//
-void TriangleFinderAdapter::find_triangles(bool show_steps)
+void TriangleFinderAdapter::find_triangles_action(bool show_steps)
 {
     TriangleFinderInfoContainer triangle_info;
+    if(selected_method_ == 0) {
+        QMessageBox::warning(parent_, "No method selected", "Please select a method");
+        return;
+    }
     if(selected_method_ == 1)
        triangle_info  = model_.find_triangles_approx_poly(show_steps);
     if(selected_method_ == 2)
@@ -109,6 +116,22 @@ void TriangleFinderAdapter::set_scene()
     current_scene_.addPixmap(current_pixmap_);
     current_scene_.setSceneRect(current_scene_.itemsBoundingRect());
     emit scene_changed(&current_scene_);
+}
+
+void TriangleFinderAdapter::load_sample(const int &idx)
+{
+    QString file_path = ":/resources/sample" + QString::number(idx) + ".jpg";
+    QFile tmp_image_file(file_path);
+    tmp_image_file.open(QIODevice::ReadOnly);
+    QByteArray buf = tmp_image_file.readAll();
+    std::vector<char> img_data(buf.begin(), buf.end());
+    cv::Mat tmp_mat = cv::imdecode(img_data, cv::IMREAD_COLOR);
+    current_mat_ = tmp_mat.clone();
+    model_.load_image(current_mat_);
+
+    current_pixmap_.load(file_path);
+    original_pixmap_ = current_pixmap_.copy();
+    set_scene();
 }
 
 

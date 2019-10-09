@@ -1,13 +1,13 @@
 #ifndef STEPWINDOW_H
 #define STEPWINDOW_H
 
-#include <QWidget>
-#include <QLabel>
 #include <QGraphicsView>
+//#include <QDebug>
+#include <QLabel>
+#include <QLayout>
 #include <QPixmap>
 #include <QTabWidget>
-#include <QLayout>
-#include <QDebug>
+#include <QWidget>
 
 namespace Ui {
 class StepWindow;

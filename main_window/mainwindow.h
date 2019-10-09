@@ -20,6 +20,7 @@ public:
     ~MainWindow() override;
 
 private:
+    //member data
     Ui::MainWindow* ui;
     TriangleFinderAdapter triangle_finder_;
     StepWindow* step_window_;

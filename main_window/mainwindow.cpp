@@ -51,7 +51,7 @@ MainWindow::MainWindow(QWidget *parent)
             &QSlider::valueChanged, &triangle_finder_,
             &TriangleFinderAdapter::canny_lower_threshold_action);
 
-     //***********************SPINBOX AND SLIDER SYNC************************//
+    //***********************SPINBOX AND SLIDER SYNC************************//
     //link spinbox and slider and vice versa
     connect(ui->adjustCannyLowerHorizontalSlider,
             &QSlider::valueChanged,
@@ -66,14 +66,14 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(ui->adjustCannyUpperSpinbox,
             /*explicit cast is required because value changed function is
-             *  overloaded*/
+                     *  overloaded*/
             static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),
             ui->adjustCannyUpperHorizontalSlider,
             &QSlider::setValue);
 
     connect(ui->adjustCannyLowerSpinbox,
             /*explicit cast is required because value changed function is
-             *  overloaded*/
+                     *  overloaded*/
             static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),
             ui->adjustCannyLowerHorizontalSlider,
             &QSlider::setValue);
@@ -87,22 +87,26 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->method1RadioButton,
             &QRadioButton::pressed,
             &triangle_finder_,
-            &TriangleFinderAdapter::method1_checked);
+            &TriangleFinderAdapter::method1_checked_action);
 
     connect(ui->method2RadioButton,
             &QRadioButton::pressed,
             &triangle_finder_,
-            &TriangleFinderAdapter::method2_checked);
+            &TriangleFinderAdapter::method2_checked_action);
 
     //***************************FIND TRIANGLES BUTTON************************//
     connect(ui->findTrianglesPushButton,
             &QPushButton::pressed,
             [this](){
-                    triangle_finder_.find_triangles(ui->showStepsCheckBox->isChecked());
-                     }
+        triangle_finder_.find_triangles_action(ui->showStepsCheckBox->isChecked());
+    }
     );
 
-        connect(&triangle_finder_, &TriangleFinderAdapter::steps_are_ready, step_window_, &StepWindow::update_steps);
+    //***************************SHOW STEPS***********************************//
+    connect(&triangle_finder_,
+            &TriangleFinderAdapter::steps_are_ready,
+            step_window_,
+            &StepWindow::update_steps);
 
 
 
