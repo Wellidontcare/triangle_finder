@@ -8,6 +8,7 @@
 #include <QFile>
 #include <QGraphicsScene>
 #include <QImage>
+#include <QLayout>
 #include <QMessageBox>
 #include <QMimeData>
 
@@ -38,6 +39,8 @@ public slots:
     void canny_lower_threshold_action(int lower);
 
     void find_triangles_action(bool show_steps);
+
+    void compare_triangles_action();
 
     void show_original();
 
@@ -74,6 +77,10 @@ private:
 
     std::vector<cv::Point> found_triangles_;
     QPixmap final_image_;
+};
+
+enum{
+    SAMPLE_0 = 0;
 };
 
 #endif // TRIANGLEFINDERADAPTER_H

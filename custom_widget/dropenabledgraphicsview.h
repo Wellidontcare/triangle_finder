@@ -20,7 +20,6 @@ public:
 
 public slots:
     void update_scene_action(QGraphicsScene* scn);
-    void dropEvent(QDropEvent *event) override;
 
 signals:
     void successfull_drop_image_data_event(const QVariant& data);
@@ -31,6 +30,7 @@ protected:
     void dragEnterEvent(QDragEnterEvent *event) override;
     void dragMoveEvent(QDragMoveEvent *event) override;
     void dragLeaveEvent(QDragLeaveEvent *event) override;
+    void dropEvent(QDropEvent *event) override;
 
 private:
     QGraphicsScene current_scene_;

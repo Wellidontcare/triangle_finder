@@ -38,6 +38,7 @@ private:
 
     int upper_canny_threshold_ = 255/3;
     int lower_canny_threshold_ = 255;
+    double diameter(const std::vector<cv::Point>& conture);
 };
 
 #endif // TRIANGLEFINDERMODEL_H

@@ -3,7 +3,6 @@
 TriangleFinderAdapter::TriangleFinderAdapter(QWidget* parent)
     : parent_(parent) {
     load_sample(0);
-
 }
 
 
@@ -87,6 +86,17 @@ void TriangleFinderAdapter::find_triangles_action(bool show_steps)
         }
         emit steps_are_ready(&steps_);
     }
+}
+
+void TriangleFinderAdapter::compare_triangles_action()
+{
+    TriangleFinderInfoContainer info1 = model_.find_triangles_approx_poly(false);
+    TriangleFinderInfoContainer info2 = model_.find_triangles_shape_factor(false);
+
+    auto viewer = new QWidget(parent_);
+    viewer->setWindowFlag(Qt::Window);
+
+    auto layout = new QHBoxLayout;
 }
 
 //********************************RESET VIEW OPTION*******************************//

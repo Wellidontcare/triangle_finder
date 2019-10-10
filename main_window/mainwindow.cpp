@@ -11,6 +11,8 @@ MainWindow::MainWindow(QWidget *parent)
     ,step_window_(new StepWindow(this))
 {
     ui->setupUi(this);
+
+    //enable drops
     setAcceptDrops(true);
 
     //set range for slider and spinbox
@@ -18,6 +20,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->adjustCannyLowerHorizontalSlider->setRange(MIN_CANNY_VAL, MAX_CANNY_VAL);
     ui->adjustCannyUpperSpinbox->setRange(MIN_CANNY_VAL, MAX_CANNY_VAL);
     ui->adjustCannyLowerSpinbox->setRange(MIN_CANNY_VAL, MAX_CANNY_VAL);
+
     setWindowTitle("Triangle Finder v0.1");
 
     //************************DRAG AND DROP**********************************//
@@ -107,9 +110,6 @@ MainWindow::MainWindow(QWidget *parent)
             &TriangleFinderAdapter::steps_are_ready,
             step_window_,
             &StepWindow::update_steps);
-
-
-
 }
 
 MainWindow::~MainWindow()

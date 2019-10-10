@@ -96,11 +96,11 @@ TriangleFinderInfoContainer TriangleFinderModel::find_triangles_shape_factor(con
 
     std::vector<std::vector<cv::Point>> triangles;
     //filter out all contours with 3 edges -> those are triangles
-    auto is_triangle = [](const std::vector<cv::Point>& contour)  {
-        std::vector<cv::Point> approx_contour;
-        //epsilon was found by trial and error
-        cv::approxPolyDP(contour, approx_contour,/*epsilon*/0.01*cv::arcLength(contour, true), true);
-        return approx_contour.size() == 3;};
+    auto is_triangle = [this](std::vector<cv::Point> cnt){
+        double area = cv::contourArea(cnt);
+        double d = diameter(cnt);
+        double sf = area / (d*d);
+        return sf >= 0.47 && sf <= 0.483;};
 
     std::copy_if(contours.begin(), contours.end(), std::back_inserter(triangles), is_triangle);
 
@@ -147,4 +147,16 @@ void TriangleFinderModel::update_preview()
     int width = static_cast<int>(500*ratio);
     int height = 500;
     cv::resize(original_image_, preview_image_, cv::Size(width, height));
+}
+
+double TriangleFinderModel::diameter(const std::vector<cv::Point> &conture)
+{
+    double max = 0;
+    for(size_t i = 0; i < conture.size(); ++i){
+        for(size_t j = 0; j < conture.size(); ++j){
+            double dist = sqrt((conture[i].x - conture[j].x)*(conture[i].x - conture[j].x) + (conture[i].y - conture[j].y)*(conture[i].y - conture[j].y));
+            if(dist > max) max = dist;
+        }
+    }
+    return max;
 }
