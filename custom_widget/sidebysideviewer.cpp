@@ -16,9 +16,6 @@ SideBySideViewer::SideBySideViewer(QWidget *parent)
     setWindowFlag(Qt::Window);
     setWindowTitle("Side by side comparison");
 
-    master_layout_->addLayout(description_layout_);
-    master_layout_->addLayout(viewer_layout_);
-    master_layout_->addLayout(time_taken_layout_);
 
     description_layout_->addWidget(left_description_);
     description_layout_->addWidget(right_description_);
@@ -28,6 +25,10 @@ SideBySideViewer::SideBySideViewer(QWidget *parent)
 
     time_taken_layout_->addWidget(left_time_taken_);
     time_taken_layout_->addWidget(right_time_taken_);
+
+    master_layout_->addLayout(description_layout_);
+    master_layout_->addLayout(viewer_layout_);
+    master_layout_->addLayout(time_taken_layout_);
 
     setLayout(master_layout_);
 }
@@ -50,8 +51,8 @@ SideBySideViewer::on_compare_ready(const QImage &left_image, const QImage &right
     left_time_taken_->setText("Time taken: " + QString::number(left_t) + " my");
     right_time_taken_->setText("Time taken: " + QString::number(right_t) + " my");
 
-    left_view_->fitInView(left_scene_.itemsBoundingRect(), Qt::KeepAspectRatio);
-    right_view_->fitInView(right_scene_.itemsBoundingRect(), Qt::KeepAspectRatio);
+    left_view_->fitInView(left_view_->scene()->itemsBoundingRect(), Qt::KeepAspectRatio);
+    right_view_->fitInView(right_view_->scene()->itemsBoundingRect(), Qt::KeepAspectRatio);
 
     show();
 }
