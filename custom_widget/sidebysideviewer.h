@@ -6,9 +6,10 @@
 #include <QGraphicsScene>
 #include <QGraphicsView>
 #include <QImage>
-#include <QPixmap>
 #include <QLabel>
 #include <QLayout>
+#include <QPixmap>
+#include <QResizeEvent>
 #include <QWidget>
 
 class SideBySideViewer : public QWidget
@@ -18,9 +19,12 @@ class SideBySideViewer : public QWidget
     QGraphicsView* right_view_ = nullptr;
     QLabel* left_time_taken_ = nullptr;
     QLabel* right_time_taken_ = nullptr;
+    QLabel* left_description_ = nullptr;
+    QLabel* right_description_ = nullptr;
     QVBoxLayout* master_layout_ = nullptr;
     QHBoxLayout* viewer_layout_ = nullptr;
     QHBoxLayout* time_taken_layout_ = nullptr;
+    QHBoxLayout* description_layout_ = nullptr;
     QGraphicsScene right_scene_{};
     QGraphicsScene left_scene_{};
 
@@ -30,6 +34,8 @@ public:
 public slots:
     void on_compare_ready(const QImage& left_image, const QImage& right_image,
                           const int& left_t, const int& right_t);
+protected:
+    void resizeEvent(QResizeEvent *event) override;
 };
 
 #endif // SIDEBYSIDEVIEWER_H
