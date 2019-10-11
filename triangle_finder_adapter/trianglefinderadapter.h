@@ -29,24 +29,23 @@ public:
 
 public slots:
 
-    void drag_and_drop_image_data_action(const QVariant& data);
-    void drag_and_drop_image_file_action(const QString& file_path);
+    void on_drag_and_drop(const QString& file_path);
 
-    void method1_checked_action();
-    void method2_checked_action();
+    void on_method1_checked();
+    void on_method2_checked();
 
-    void canny_upper_threshold_action(int upper);
-    void canny_lower_threshold_action(int lower);
+    void on_canny_u_slider_moved(const int& upper);
+    void on_canny_l_slider_moved(const int& lower);
 
-    void find_triangles_action(bool show_steps);
+    void on_find_triangles_button_pressed(const bool& show_steps);
 
-    void compare_triangles_action();
+    void on_compare_triangles_button_pressed();
 
-    void show_original();
+    void on_reset_view_button_pressed();
 
 signals:
     void scene_changed(QGraphicsScene*);
-    void steps_are_ready(std::vector<QImage>* steps);
+    void steps_are_ready(const std::vector<QImage>& steps);
 
 private:
     /*conversion functions implementation based on
@@ -80,7 +79,12 @@ private:
 };
 
 enum{
-    SAMPLE_0 = 0;
+    SAMPLE_1 = 0,
+    SAMPLE_2,
+    SAMPLE_3,
+    SAMPLE_4,
+    SAMPLE_5,
+    SAMPLE_6,
 };
 
 #endif // TRIANGLEFINDERADAPTER_H

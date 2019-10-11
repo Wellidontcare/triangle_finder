@@ -24,17 +24,11 @@ MainWindow::MainWindow(QWidget *parent)
     setWindowTitle("Triangle Finder v0.1");
 
     //************************DRAG AND DROP**********************************//
-    //image data drop -> load image
-    connect(ui->imageGraphicsView,
-            &DropEnabledGraphicsView::successfull_drop_image_data_event,
-            &triangle_finder_,
-            &TriangleFinderAdapter::drag_and_drop_image_data_action);
-
     //image file drop -> load image
     connect(ui->imageGraphicsView,
             &DropEnabledGraphicsView::successfull_drop_image_file_event,
             &triangle_finder_,
-            &TriangleFinderAdapter::drag_and_drop_image_file_action);
+            &TriangleFinderAdapter::on_drag_and_drop);
 
 
     //update viewer when image changed
@@ -47,12 +41,12 @@ MainWindow::MainWindow(QWidget *parent)
     //show preview for canny upper threshold
     connect(ui->adjustCannyUpperHorizontalSlider,
             &QSlider::valueChanged, &triangle_finder_,
-            &TriangleFinderAdapter::canny_upper_threshold_action);
+            &TriangleFinderAdapter::on_canny_u_slider_moved);
 
     //show preview for canny lower threshold
     connect(ui->adjustCannyLowerHorizontalSlider,
             &QSlider::valueChanged, &triangle_finder_,
-            &TriangleFinderAdapter::canny_lower_threshold_action);
+            &TriangleFinderAdapter::on_canny_l_slider_moved);
 
     //***********************SPINBOX AND SLIDER SYNC************************//
     //link spinbox and slider and vice versa
@@ -84,24 +78,24 @@ MainWindow::MainWindow(QWidget *parent)
     //***************************RESET VIEW**********************************//
     connect(ui->resetViewPushbutton,
             &QPushButton::pressed, &triangle_finder_,
-            &TriangleFinderAdapter::show_original);
+            &TriangleFinderAdapter::on_reset_view_button_pressed);
 
     //***********************METHOD SELECTOR RADIO BUTTON*********************//
     connect(ui->method1RadioButton,
             &QRadioButton::pressed,
             &triangle_finder_,
-            &TriangleFinderAdapter::method1_checked_action);
+            &TriangleFinderAdapter::on_method1_checked);
 
     connect(ui->method2RadioButton,
             &QRadioButton::pressed,
             &triangle_finder_,
-            &TriangleFinderAdapter::method2_checked_action);
+            &TriangleFinderAdapter::on_method2_checked);
 
     //***************************FIND TRIANGLES BUTTON************************//
     connect(ui->findTrianglesPushButton,
             &QPushButton::pressed,
             [this](){
-        triangle_finder_.find_triangles_action(ui->showStepsCheckBox->isChecked());
+        triangle_finder_.on_find_triangles_button_pressed(ui->showStepsCheckBox->isChecked());
     }
     );
 
