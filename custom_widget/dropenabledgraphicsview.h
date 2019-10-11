@@ -14,6 +14,8 @@ constexpr int FILE_PREFIX = 7;
 
 class DropEnabledGraphicsView : public QGraphicsView
 {
+    QGraphicsScene current_scene_;
+    QPixmap current_pixmap_;
     Q_OBJECT
 public:
     DropEnabledGraphicsView(QWidget* parent);
@@ -33,8 +35,7 @@ protected:
     void dropEvent(QDropEvent *event) override;
 
 private:
-    QGraphicsScene current_scene_;
-    QPixmap current_pixmap_;
+    bool valid_image_file(const QString& file_path) const;
 };
 
 #endif // DROPENABLEDGRAPHICSVIEW_H

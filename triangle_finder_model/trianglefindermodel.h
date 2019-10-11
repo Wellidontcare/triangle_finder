@@ -13,6 +13,13 @@
 
 class TriangleFinderModel
 {
+    cv::Mat original_image_{};
+    cv::Mat preview_image_{};
+    cv::Mat canny_preview_image_{};
+
+    int upper_canny_threshold_ = 255/3;
+    int lower_canny_threshold_ = 255;
+
 public:
 //constructors
     TriangleFinderModel() = default;
@@ -29,16 +36,7 @@ public:
 
 private:
     void update_preview();
-
-private:
-    //data
-    cv::Mat original_image_;
-    cv::Mat preview_image_;
-    cv::Mat canny_preview_image_;
-
-    int upper_canny_threshold_ = 255/3;
-    int lower_canny_threshold_ = 255;
-    double diameter(const std::vector<cv::Point>& conture);
+    double diameter(const std::vector<cv::Point>& conture) const;
 };
 
 #endif // TRIANGLEFINDERMODEL_H

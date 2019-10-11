@@ -149,7 +149,7 @@ void TriangleFinderModel::update_preview()
     cv::resize(original_image_, preview_image_, cv::Size(width, height));
 }
 
-double TriangleFinderModel::diameter(const std::vector<cv::Point> &conture)
+double TriangleFinderModel::diameter(const std::vector<cv::Point> &conture) const
 {
     double max = 0;
     for(size_t i = 0; i < conture.size(); ++i){

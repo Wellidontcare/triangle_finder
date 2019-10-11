@@ -25,6 +25,7 @@ class TriangleFinderAdapter : public QObject
 
 public:
     TriangleFinderAdapter(QWidget* parent);
+    TriangleFinderAdapter() = default;
     ~TriangleFinderAdapter() override = default;
 
 public slots:
@@ -60,22 +61,22 @@ private:
 
 private:
     //member data
-    QWidget* parent_;
+    QWidget* parent_ = nullptr;
 
-    TriangleFinderModel model_;
+    TriangleFinderModel model_{};
 
-    QPixmap current_pixmap_;
-    cv::Mat current_mat_;
-    QGraphicsScene current_scene_;
-    QPixmap original_pixmap_;
-    std::vector<QImage> steps_;
+    QPixmap current_pixmap_{};
+    cv::Mat current_mat_{};
+    QGraphicsScene current_scene_{};
+    QPixmap original_pixmap_{};
+    std::vector<QImage> steps_{};
 
     int selected_method_ = 0;
     bool meassure_performance_ = false;
     bool show_steps_ = false;
 
-    std::vector<cv::Point> found_triangles_;
-    QPixmap final_image_;
+    std::vector<cv::Point> found_triangles_{};
+    QPixmap final_image_{};
 };
 
 enum{

@@ -8,11 +8,13 @@ StepWindow::StepWindow(QWidget *parent) :
     setWindowIcon(QIcon(":/resources/icon.png"));
 }
 
-void StepWindow::update_steps(const std::vector<QImage>& images)
+void
+StepWindow::update_steps(const std::vector<QImage>& images)
 {
     delete layout();
     int tab_count = 1;
     auto step_tab_widget = new QTabWidget;
+
     for(auto image : images){
         auto widget = new QWidget;
         auto layout = new QVBoxLayout;
@@ -28,6 +30,7 @@ void StepWindow::update_steps(const std::vector<QImage>& images)
         tab_count++;
         graphics_view->fitInView(graphics_view->scene()->sceneRect(), Qt::KeepAspectRatio);
     }
+
     auto layout = new QVBoxLayout;
     layout->addWidget(step_tab_widget);
     setLayout(layout);

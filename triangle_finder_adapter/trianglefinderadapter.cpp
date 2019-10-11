@@ -2,7 +2,7 @@
 
 TriangleFinderAdapter::TriangleFinderAdapter(QWidget* parent)
     : parent_(parent) {
-    load_sample(0);
+    load_sample(SAMPLE_1);
 }
 
 
@@ -53,18 +53,19 @@ TriangleFinderAdapter::on_canny_l_slider_moved(const int& lower)
 }
 
 
-//*************************FIND TRIANGLES ADAPTER****************************//
+/**************************FIND TRIANGLES ADAPTER*****************************/
 void
 TriangleFinderAdapter::on_find_triangles_button_pressed(const bool& show_steps)
 {
     TriangleFinderInfoContainer triangle_info;
     if(selected_method_ == 0) {
-        QMessageBox::warning(parent_, "No method selected", "Please select a method");
+        QMessageBox::warning(parent_,
+                             "No method selected", "Please select a method");
         return;
     }
     if(selected_method_ == 1)
        triangle_info  = model_.find_triangles_approx_poly(show_steps);
-    if(selected_method_ == 2)
+    else if(selected_method_ == 2)
         triangle_info = model_.find_triangles_shape_factor(show_steps);
     cv::Mat tmp_mat = triangle_info.final_image;
     cv::cvtColor(tmp_mat, current_mat_, cv::COLOR_BGR2RGB);
@@ -96,7 +97,7 @@ TriangleFinderAdapter::on_compare_triangles_button_pressed()
     auto layout = new QHBoxLayout;
 }
 
-//********************************RESET VIEW OPTION*******************************//
+/*********************************RESET VIEW OPTION***************************/
 void
 TriangleFinderAdapter::on_reset_view_button_pressed()
 {

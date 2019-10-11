@@ -8,56 +8,69 @@ DropEnabledGraphicsView::DropEnabledGraphicsView(QWidget* parent) : QGraphicsVie
 }
 
 //SLOTS
-void DropEnabledGraphicsView::update_scene_action(QGraphicsScene *scn)
+void
+DropEnabledGraphicsView::update_scene_action(QGraphicsScene *scn)
 {
     setScene(scn);
     fitInView(scene()->itemsBoundingRect(), Qt::KeepAspectRatio);
 }
 
-//PROTECTED
-//SIGNALS
-void DropEnabledGraphicsView::dragEnterEvent(QDragEnterEvent *event)
+void
+DropEnabledGraphicsView::dragEnterEvent(QDragEnterEvent *event)
 {
     event->acceptProposedAction();
 }
 
 //currently only drop from file explorer is supported
-void DropEnabledGraphicsView::dropEvent(QDropEvent *event)
+void
+DropEnabledGraphicsView::dropEvent(QDropEvent *event)
 {   
     if(event->mimeData()->hasUrls()){
-        QString text = event->mimeData()->urls()[0].toString();
-        QString file_path;
-
+        QString drop_text = event->mimeData()->urls()[0].toString();
         //handle drop from file explorer
-        if(text.startsWith("file:///")){
-            file_path = text.remove(0, FILE_PREFIX);
-            if(text.endsWith("jpg") || text.endsWith("png") || text.endsWith("bmp")){
-                current_pixmap_.load(file_path);
-                emit successfull_drop_image_file_event(file_path);
-            }
+        if(valid_image_file(drop_text)){
+            QString file_path = drop_text.remove(0, FILE_PREFIX);
+            current_pixmap_.load(file_path);
+            emit successfull_drop_image_file_event(file_path);
         }
         return;
     }
     else{
-        QMessageBox msgbox("Not an image", "Do you promise to only drop image files into the viewer? (*.jpg, *.png, *.bmp)", QMessageBox::Icon::Warning, 0, 0, 0);
+        QMessageBox msgbox("Not an image",
+                           "Do you promise to only drop image "
+                           "files into the viewer? (*.jpg, *.png, *.bmp)",
+                           QMessageBox::Icon::Warning, 0, 0, 0);
+
         msgbox.addButton("I promise!", QMessageBox::YesRole);
         msgbox.exec();
     }
 }
 
-void DropEnabledGraphicsView::resizeEvent(QResizeEvent *event)
+bool
+DropEnabledGraphicsView::valid_image_file(const QString &file_path)
+{
+    return file_path.startsWith("file:///")
+            && (file_path.endsWith("jpg")
+                || file_path.endsWith("png")
+                || file_path.endsWith("bmp"));
+}
+
+void
+DropEnabledGraphicsView::resizeEvent(QResizeEvent *event)
 {
     if(scene()) fitInView(scene()->itemsBoundingRect(), Qt::KeepAspectRatio);
     event->accept();
 }
 
 
-void DropEnabledGraphicsView::dragMoveEvent(QDragMoveEvent *event)
+void
+DropEnabledGraphicsView::dragMoveEvent(QDragMoveEvent *event)
 {
     event->acceptProposedAction();
 }
 
-void DropEnabledGraphicsView::dragLeaveEvent(QDragLeaveEvent *event)
+void
+DropEnabledGraphicsView::dragLeaveEvent(QDragLeaveEvent *event)
 {
     event->accept();
 }

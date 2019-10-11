@@ -23,7 +23,6 @@ public:
 
 public slots:
     void update_steps(const std::vector<QImage>& images);
-
 };
 
 #endif // STEPWINDOW_H

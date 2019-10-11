@@ -21,9 +21,9 @@ public:
 
 private:
     //member data
-    Ui::MainWindow* ui;
-    TriangleFinderAdapter triangle_finder_;
-    StepWindow* step_window_;
+    Ui::MainWindow* ui = nullptr;
+    TriangleFinderAdapter triangle_finder_{};
+    StepWindow* step_window_{};
 
 };
 #endif // MAINWINDOW_H
