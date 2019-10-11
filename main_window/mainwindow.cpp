@@ -5,10 +5,12 @@ constexpr int MAX_CANNY_VAL = 255;
 constexpr int MIN_CANNY_VAL = 0;
 
 MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent)
-    , ui(new Ui::MainWindow)
-    ,triangle_finder_(this)
-    ,step_window_(new StepWindow(this))
+    : QMainWindow(parent),
+    ui(new Ui::MainWindow),
+    triangle_finder_(this),
+    step_window_(new StepWindow(this)),
+    side_by_side_viewer_(new SideBySideViewer(this))
+
 {
     ui->setupUi(this);
 
@@ -35,7 +37,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(&triangle_finder_,
             &TriangleFinderAdapter::scene_changed,
             ui->imageGraphicsView,
-            &DropEnabledGraphicsView::update_scene_action);
+            &DropEnabledGraphicsView::on_scene_changed);
 
     //***********************CANNY EDGE DETECTOR PREVIEW*********************//
     //show preview for canny upper threshold
@@ -77,25 +79,25 @@ MainWindow::MainWindow(QWidget *parent)
 
     //***************************RESET VIEW**********************************//
     connect(ui->resetViewPushbutton,
-            &QPushButton::pressed, &triangle_finder_,
-            &TriangleFinderAdapter::on_reset_view_button_pressed);
+            &QPushButton::clicked, &triangle_finder_,
+            &TriangleFinderAdapter::on_reset_view_button_clicked);
 
     //***********************METHOD SELECTOR RADIO BUTTON*********************//
     connect(ui->method1RadioButton,
-            &QRadioButton::pressed,
+            &QRadioButton::clicked,
             &triangle_finder_,
             &TriangleFinderAdapter::on_method1_checked);
 
     connect(ui->method2RadioButton,
-            &QRadioButton::pressed,
+            &QRadioButton::clicked,
             &triangle_finder_,
             &TriangleFinderAdapter::on_method2_checked);
 
     //***************************FIND TRIANGLES BUTTON************************//
     connect(ui->findTrianglesPushButton,
-            &QPushButton::pressed,
+            &QPushButton::clicked,
             [this](){
-        triangle_finder_.on_find_triangles_button_pressed(ui->showStepsCheckBox->isChecked());
+        triangle_finder_.on_find_triangles_button_clicked(ui->showStepsCheckBox->isChecked());
     }
     );
 
@@ -104,6 +106,17 @@ MainWindow::MainWindow(QWidget *parent)
             &TriangleFinderAdapter::steps_are_ready,
             step_window_,
             &StepWindow::update_steps);
+
+    /*****************************COMPARE METHODS*******************************/
+    connect(ui->compareMethodsPushButton,
+            &QPushButton::clicked,
+            &triangle_finder_,
+            &TriangleFinderAdapter::on_compare_methods_button_clicked);
+
+     connect(&triangle_finder_,
+             &TriangleFinderAdapter::compare_ready,
+             side_by_side_viewer_,
+             &SideBySideViewer::on_compare_ready);
 }
 
 MainWindow::~MainWindow()

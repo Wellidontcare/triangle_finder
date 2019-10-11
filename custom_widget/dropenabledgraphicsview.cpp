@@ -9,7 +9,7 @@ DropEnabledGraphicsView::DropEnabledGraphicsView(QWidget* parent) : QGraphicsVie
 
 //SLOTS
 void
-DropEnabledGraphicsView::update_scene_action(QGraphicsScene *scn)
+DropEnabledGraphicsView::on_scene_changed(QGraphicsScene *scn)
 {
     setScene(scn);
     fitInView(scene()->itemsBoundingRect(), Qt::KeepAspectRatio);
@@ -47,7 +47,7 @@ DropEnabledGraphicsView::dropEvent(QDropEvent *event)
 }
 
 bool
-DropEnabledGraphicsView::valid_image_file(const QString &file_path)
+DropEnabledGraphicsView::valid_image_file(const QString &file_path) const
 {
     return file_path.startsWith("file:///")
             && (file_path.endsWith("jpg")

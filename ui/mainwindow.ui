@@ -40,7 +40,7 @@
         </property>
         <layout class="QVBoxLayout" name="verticalLayout">
          <item>
-          <widget class="QPushButton" name="comapreMethodsPushButton">
+          <widget class="QPushButton" name="compareMethodsPushButton">
            <property name="toolTip">
             <string>Finds triangles in all six samples and shows the time meassured side by side</string>
            </property>
@@ -205,7 +205,7 @@
          <bool>true</bool>
         </property>
         <property name="toolTip">
-         <string>PIck a sample or drag &amp; drop an image file (.jpg, .png, .bmp)</string>
+         <string>Pick a sample or drag &amp; drop an image file (.jpg, .png, .bmp)</string>
         </property>
        </widget>
       </item>

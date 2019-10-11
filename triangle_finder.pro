@@ -17,6 +17,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     custom_widget/dropenabledgraphicsview.cpp \
+    custom_widget/sidebysideviewer.cpp \
     custom_widget/stepwindow.cpp \
     main_window/mainwindow.cpp \
     triangle_finder_adapter/trianglefinderadapter.cpp \
@@ -25,6 +26,7 @@ SOURCES += \
 
 HEADERS += \
     custom_widget/dropenabledgraphicsview.h \
+    custom_widget/sidebysideviewer.h \
     main_window/mainwindow.h \
     triangle_finder_adapter/trianglefinderadapter.h \
     triangle_finder_model/trianglefindermodel.h \

@@ -21,7 +21,7 @@ public:
     DropEnabledGraphicsView(QWidget* parent);
 
 public slots:
-    void update_scene_action(QGraphicsScene* scn);
+    void on_scene_changed(QGraphicsScene* scn);
 
 signals:
     void successfull_drop_image_data_event(const QVariant& data);

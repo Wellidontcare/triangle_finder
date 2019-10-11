@@ -55,7 +55,7 @@ TriangleFinderAdapter::on_canny_l_slider_moved(const int& lower)
 
 /**************************FIND TRIANGLES ADAPTER*****************************/
 void
-TriangleFinderAdapter::on_find_triangles_button_pressed(const bool& show_steps)
+TriangleFinderAdapter::on_find_triangles_button_clicked(const bool& show_steps)
 {
     TriangleFinderInfoContainer triangle_info;
     if(selected_method_ == 0) {
@@ -64,7 +64,7 @@ TriangleFinderAdapter::on_find_triangles_button_pressed(const bool& show_steps)
         return;
     }
     if(selected_method_ == 1)
-       triangle_info  = model_.find_triangles_approx_poly(show_steps);
+        triangle_info  = model_.find_triangles_approx_poly(show_steps);
     else if(selected_method_ == 2)
         triangle_info = model_.find_triangles_shape_factor(show_steps);
     cv::Mat tmp_mat = triangle_info.final_image;
@@ -86,40 +86,28 @@ TriangleFinderAdapter::on_find_triangles_button_pressed(const bool& show_steps)
 }
 
 void
-TriangleFinderAdapter::on_compare_triangles_button_pressed()
+TriangleFinderAdapter::on_compare_methods_button_clicked()
 {
-    TriangleFinderInfoContainer info1 = model_.find_triangles_approx_poly(false);
-    TriangleFinderInfoContainer info2 = model_.find_triangles_shape_factor(false);
+    TriangleFinderInfoContainer data1 = model_.find_triangles_approx_poly(false);
+    TriangleFinderInfoContainer data2 = model_.find_triangles_shape_factor(false);
 
-    auto viewer = new QWidget(parent_);
-    viewer->setWindowFlag(Qt::Window);
+    QImage left_image = mat_to_qimage(data1.final_image, QImage::Format_RGB888).rgbSwapped();
+    QImage right_image = mat_to_qimage(data2.final_image, QImage::Format_RGB888).rgbSwapped();
 
-    auto layout = new QHBoxLayout;
+    int left_t = data1.time_taken_my;
+    int right_t = data2.time_taken_my;
+
+    emit compare_ready(left_image, right_image, left_t, right_t);
+    return;
 }
 
-/*********************************RESET VIEW OPTION***************************/
 void
-TriangleFinderAdapter::on_reset_view_button_pressed()
+TriangleFinderAdapter::on_reset_view_button_clicked()
 {
     current_pixmap_ = original_pixmap_;
     set_scene();
 }
 
-
-//*******************************HELPER FUNCTIONS**********************************//
-QImage
-TriangleFinderAdapter::mat_to_qimage(const cv::Mat &mat, const QImage::Format& format)
-{
-    return QImage(mat.data, mat.cols, mat.rows, static_cast<int>(mat.step), format).copy();
-}
-
-cv::Mat
-TriangleFinderAdapter::qimage_to_mat(const QImage &qimage, int format)
-{
-    return cv::Mat(qimage.height(), qimage.width(), format,
-                   const_cast<uchar*>(qimage.bits()),
-                   static_cast<size_t>(qimage.bytesPerLine())).clone();
-}
 
 void
 TriangleFinderAdapter::set_scene()
@@ -147,4 +135,16 @@ TriangleFinderAdapter::load_sample(const int &idx)
     set_scene();
 }
 
+QImage
+TriangleFinderAdapter::mat_to_qimage(const cv::Mat &mat, const QImage::Format& format)
+{
+    return QImage(mat.data, mat.cols, mat.rows, static_cast<int>(mat.step), format).copy();
+}
 
+cv::Mat
+TriangleFinderAdapter::qimage_to_mat(const QImage &qimage, int format)
+{
+    return cv::Mat(qimage.height(), qimage.width(), format,
+                   const_cast<uchar*>(qimage.bits()),
+                   static_cast<size_t>(qimage.bytesPerLine())).clone();
+}

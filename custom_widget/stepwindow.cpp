@@ -34,5 +34,6 @@ StepWindow::update_steps(const std::vector<QImage>& images)
     auto layout = new QVBoxLayout;
     layout->addWidget(step_tab_widget);
     setLayout(layout);
+
     show();
 }

@@ -5,6 +5,7 @@
 
 #include "custom_widget/dropenabledgraphicsview.h"
 #include "custom_widget/stepwindow.h"
+#include "custom_widget/sidebysideviewer.h"
 #include "triangle_finder_adapter/trianglefinderadapter.h"
 
 QT_BEGIN_NAMESPACE
@@ -23,7 +24,8 @@ private:
     //member data
     Ui::MainWindow* ui = nullptr;
     TriangleFinderAdapter triangle_finder_{};
-    StepWindow* step_window_{};
+    StepWindow* step_window_ = nullptr;
+    SideBySideViewer* side_by_side_viewer_ = nullptr;
 
 };
 #endif // MAINWINDOW_H

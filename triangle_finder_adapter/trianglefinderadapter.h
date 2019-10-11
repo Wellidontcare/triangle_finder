@@ -7,8 +7,10 @@
 #include <QFileDialog>
 #include <QFile>
 #include <QGraphicsScene>
+#include <QGraphicsView>
 #include <QImage>
 #include <QLayout>
+#include <QLabel>
 #include <QMessageBox>
 #include <QMimeData>
 
@@ -21,6 +23,20 @@
 
 class TriangleFinderAdapter : public QObject
 {
+    QWidget* parent_ = nullptr;
+    TriangleFinderModel model_{};
+    QPixmap current_pixmap_{};
+    cv::Mat current_mat_{};
+    QGraphicsScene current_scene_{};
+    QPixmap original_pixmap_{};
+    std::vector<QImage> steps_{};
+
+    int selected_method_ = 0;
+    bool meassure_performance_ = false;
+    bool show_steps_ = false;
+
+    std::vector<cv::Point> found_triangles_{};
+    QPixmap final_image_{};
     Q_OBJECT
 
 public:
@@ -38,15 +54,17 @@ public slots:
     void on_canny_u_slider_moved(const int& upper);
     void on_canny_l_slider_moved(const int& lower);
 
-    void on_find_triangles_button_pressed(const bool& show_steps);
+    void on_find_triangles_button_clicked(const bool& show_steps);
 
-    void on_compare_triangles_button_pressed();
+    void on_compare_methods_button_clicked();
 
-    void on_reset_view_button_pressed();
+    void on_reset_view_button_clicked();
 
 signals:
     void scene_changed(QGraphicsScene*);
     void steps_are_ready(const std::vector<QImage>& steps);
+    void compare_ready(const QImage& left_image, const QImage& right_image,
+                       const int& left_t, const int& right_t);
 
 private:
     /*conversion functions implementation based on
@@ -61,22 +79,6 @@ private:
 
 private:
     //member data
-    QWidget* parent_ = nullptr;
-
-    TriangleFinderModel model_{};
-
-    QPixmap current_pixmap_{};
-    cv::Mat current_mat_{};
-    QGraphicsScene current_scene_{};
-    QPixmap original_pixmap_{};
-    std::vector<QImage> steps_{};
-
-    int selected_method_ = 0;
-    bool meassure_performance_ = false;
-    bool show_steps_ = false;
-
-    std::vector<cv::Point> found_triangles_{};
-    QPixmap final_image_{};
 };
 
 enum{
