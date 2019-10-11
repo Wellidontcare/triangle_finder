@@ -117,6 +117,12 @@ MainWindow::MainWindow(QWidget *parent)
              &TriangleFinderAdapter::compare_ready,
              side_by_side_viewer_,
              &SideBySideViewer::on_compare_ready);
+     /**************************SAMPLE PICKER*********************************/
+     connect(ui->samplePickerComboBox,
+             static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
+             &triangle_finder_,
+             &TriangleFinderAdapter::load_sample);
+
 }
 
 MainWindow::~MainWindow()

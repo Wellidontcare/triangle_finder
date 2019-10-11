@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QComboBox>
 
 #include "custom_widget/dropenabledgraphicsview.h"
 #include "custom_widget/stepwindow.h"

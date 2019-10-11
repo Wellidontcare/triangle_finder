@@ -6,8 +6,8 @@ SideBySideViewer::SideBySideViewer(QWidget *parent)
       right_view_(new QGraphicsView),
       left_time_taken_(new QLabel),
       right_time_taken_(new QLabel),
-      left_description_(new QLabel("Method 2 (Finds triangles, by calculating shape-factor)")),
-      right_description_(new QLabel("Mehod 1 (Finds triangles by approximating a polygon)")),
+      left_description_(new QLabel("Mehod 1 (Finds triangles by approximating a polygon)")),
+      right_description_(new QLabel("Method 2 (Finds triangles, by calculating shape-factor)")),
       master_layout_(new QVBoxLayout),
       viewer_layout_(new QHBoxLayout),
       time_taken_layout_(new QHBoxLayout),
@@ -51,15 +51,15 @@ SideBySideViewer::on_compare_ready(const QImage &left_image, const QImage &right
     left_time_taken_->setText("Time taken: " + QString::number(left_t) + " my");
     right_time_taken_->setText("Time taken: " + QString::number(right_t) + " my");
 
-    left_view_->fitInView(left_view_->scene()->itemsBoundingRect(), Qt::KeepAspectRatio);
-    right_view_->fitInView(right_view_->scene()->itemsBoundingRect(), Qt::KeepAspectRatio);
+    left_view_->fitInView(left_scene_.itemsBoundingRect(), Qt::KeepAspectRatio);
+    right_view_->fitInView(right_scene_.itemsBoundingRect(), Qt::KeepAspectRatio);
 
     show();
 }
 
 void SideBySideViewer::resizeEvent(QResizeEvent *event)
 {
-    left_view_->fitInView(left_view_->scene()->itemsBoundingRect(), Qt::KeepAspectRatio);
-    right_view_->fitInView(right_view_->scene()->itemsBoundingRect(), Qt::KeepAspectRatio);
+    left_view_->fitInView(left_scene_.itemsBoundingRect(), Qt::KeepAspectRatio);
+    right_view_->fitInView(right_scene_.itemsBoundingRect(), Qt::KeepAspectRatio);
     event->accept();
 }

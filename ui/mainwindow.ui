@@ -212,7 +212,7 @@
      </layout>
     </item>
     <item>
-     <widget class="QComboBox" name="pickSampleComboBox">
+     <widget class="QComboBox" name="samplePickerComboBox">
       <property name="currentText">
        <string>Sample 1</string>
       </property>

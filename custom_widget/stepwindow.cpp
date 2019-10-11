@@ -21,7 +21,6 @@ StepWindow::update_steps(const std::vector<QImage>& images)
         auto graphics_view = new QGraphicsView;
         QPixmap pixmap = QPixmap::fromImage(image);
         QGraphicsScene* scene = new QGraphicsScene;
-        //qDebug() << pixmap.width() << " " << pixmap.height();
         scene->addPixmap(pixmap);
         graphics_view->setScene(scene);
         layout->addWidget(graphics_view);

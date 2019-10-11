@@ -121,7 +121,7 @@ TriangleFinderAdapter::set_scene()
 void
 TriangleFinderAdapter::load_sample(const int &idx)
 {
-    QString file_path = ":/resources/sample" + QString::number(idx) + ".jpg";
+    QString file_path = ":/resources/sample" + QString::number(idx+1) + ".png";
     QFile tmp_image_file(file_path);
     tmp_image_file.open(QIODevice::ReadOnly);
     QByteArray buf = tmp_image_file.readAll();

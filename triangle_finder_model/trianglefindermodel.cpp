@@ -1,5 +1,9 @@
 #include "trianglefindermodel.h"
 
+constexpr int MIN_AREA = 20;
+constexpr int MIN_ARC_LENGTH = 20;
+constexpr double D_EPSILON = 0.04;
+
 void
 TriangleFinderModel::load_image(const cv::Mat &image)
 {
@@ -49,7 +53,7 @@ TriangleFinderModel::find_triangles_approx_poly(const bool &show_steps)
         std::vector<cv::Point> approx_contour;
         //epsilon was found by trial and error
         cv::approxPolyDP(contour, approx_contour,
-                         /*epsilon*/0.03*cv::arcLength(contour, true), true);
+                         /*epsilon*/D_EPSILON*cv::arcLength(contour, true), true);
         return approx_contour.size() == 3;};
 
     std::copy_if(contours.begin(),
@@ -67,8 +71,8 @@ TriangleFinderModel::find_triangles_approx_poly(const bool &show_steps)
 
     //filter small triangles (probably false positives)
     auto is_too_small = [](const std::vector<cv::Point>& triangle){
-        return (cv::arcLength(triangle, true) < 40
-                || cv::contourArea(triangle) < 100);
+        return (cv::arcLength(triangle, true) < MIN_ARC_LENGTH
+                || cv::contourArea(triangle) < MIN_AREA);
     };
 
 
@@ -125,7 +129,7 @@ TriangleFinderModel::find_triangles_shape_factor(const bool &show_steps)
         double area = cv::contourArea(cnt);
         double d = diameter(cnt);
         double sf = area / (d*d);
-        return sf >= 0.47 && sf <= 0.483;};
+        return sf >= 0.44 && sf <= 0.483;};
 
     std::copy_if(contours.begin(), contours.end(),
                  std::back_inserter(triangles), is_triangle);
@@ -140,7 +144,7 @@ TriangleFinderModel::find_triangles_shape_factor(const bool &show_steps)
 
     //filter small triangles (probably false positives)
     auto is_too_small = [](const std::vector<cv::Point>& triangle){
-        return (cv::arcLength(triangle, true) < 40 || cv::contourArea(triangle) < 100);
+        return (cv::arcLength(triangle, true) < MIN_ARC_LENGTH || cv::contourArea(triangle) < MIN_AREA);
     };
 
 

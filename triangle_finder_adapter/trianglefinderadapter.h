@@ -55,10 +55,9 @@ public slots:
     void on_canny_l_slider_moved(const int& lower);
 
     void on_find_triangles_button_clicked(const bool& show_steps);
-
     void on_compare_methods_button_clicked();
-
     void on_reset_view_button_clicked();
+    void load_sample(const int& idx);
 
 signals:
     void scene_changed(QGraphicsScene*);
@@ -75,7 +74,6 @@ private:
 
     //helper functions
     void set_scene();
-    void load_sample(const int& idx);
 
 private:
     //member data
