@@ -129,7 +129,7 @@ TriangleFinderModel::find_triangles_shape_factor(const bool &show_steps)
         double area = cv::contourArea(cnt);
         double d = diameter(cnt);
         double sf = area / (d*d);
-        return sf >= 0.44 && sf <= 0.483;};
+        return sf >= 0.43 && sf <= 0.49;};
 
     std::copy_if(contours.begin(), contours.end(),
                  std::back_inserter(triangles), is_triangle);
