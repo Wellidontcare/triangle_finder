@@ -74,9 +74,6 @@ private:
 
     //helper functions
     void set_scene();
-
-private:
-    //member data
 };
 
 enum{

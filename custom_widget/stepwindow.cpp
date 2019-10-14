@@ -1,19 +1,22 @@
 #include "stepwindow.h"
 
 StepWindow::StepWindow(QWidget *parent) :
-    QWidget(parent)
+    QWidget(parent),
+    step_tab_widget_(new QTabWidget(this)),
+    master_layout_(new QVBoxLayout)
+
 {
     setWindowFlag(Qt::Window);
     setWindowTitle("Step Viewer");
     setWindowIcon(QIcon(":/resources/icon.png"));
+    setLayout(master_layout_);
 }
 
 void
 StepWindow::update_steps(const std::vector<QImage>& images)
 {
-    delete layout();
     int tab_count = 1;
-    auto step_tab_widget = new QTabWidget;
+    step_tab_widget_->clear();
 
     for(auto image : images){
         auto widget = new QWidget;
@@ -25,14 +28,10 @@ StepWindow::update_steps(const std::vector<QImage>& images)
         graphics_view->setScene(scene);
         layout->addWidget(graphics_view);
         widget->setLayout(layout);
-        step_tab_widget->addTab(widget, "Step " + QString::number(tab_count));
+        step_tab_widget_->addTab(widget, "Step " + QString::number(tab_count));
         tab_count++;
         graphics_view->fitInView(graphics_view->scene()->sceneRect(), Qt::KeepAspectRatio);
     }
-
-    auto layout = new QVBoxLayout;
-    layout->addWidget(step_tab_widget);
-    setLayout(layout);
-
+    master_layout_->addWidget(step_tab_widget_);
     show();
 }

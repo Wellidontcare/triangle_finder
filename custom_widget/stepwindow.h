@@ -9,13 +9,11 @@
 #include <QTabWidget>
 #include <QWidget>
 
-namespace Ui {
-class StepWindow;
-}
-
 class StepWindow : public QWidget
 {
     Q_OBJECT
+    QTabWidget* step_tab_widget_ = nullptr;
+    QVBoxLayout* master_layout_ = nullptr;
 
 public:
     explicit StepWindow(QWidget *parent = nullptr);

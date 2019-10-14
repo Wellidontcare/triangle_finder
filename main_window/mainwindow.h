@@ -16,17 +16,15 @@ QT_END_NAMESPACE
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
+    Ui::MainWindow* ui = nullptr;
+    TriangleFinderAdapter triangle_finder_{};
+    StepWindow* step_window_ = nullptr;
+    SideBySideViewer* side_by_side_viewer_ = nullptr;
 
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow() override;
 
-private:
-    //member data
-    Ui::MainWindow* ui = nullptr;
-    TriangleFinderAdapter triangle_finder_{};
-    StepWindow* step_window_ = nullptr;
-    SideBySideViewer* side_by_side_viewer_ = nullptr;
 
 };
 #endif // MAINWINDOW_H

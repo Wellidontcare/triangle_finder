@@ -25,7 +25,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     setWindowTitle("Triangle Finder v0.1");
 
-    //************************DRAG AND DROP**********************************//
+    /*************************DRAG AND DROP***********************************/
     //image file drop -> load image
     connect(ui->imageGraphicsView,
             &DropEnabledGraphicsView::successfull_drop_image_file_event,
@@ -39,7 +39,7 @@ MainWindow::MainWindow(QWidget *parent)
             ui->imageGraphicsView,
             &DropEnabledGraphicsView::on_scene_changed);
 
-    //***********************CANNY EDGE DETECTOR PREVIEW*********************//
+    /************************CANNY EDGE DETECTOR PREVIEW**********************/
     //show preview for canny upper threshold
     connect(ui->adjustCannyUpperHorizontalSlider,
             &QSlider::valueChanged, &triangle_finder_,
@@ -50,7 +50,7 @@ MainWindow::MainWindow(QWidget *parent)
             &QSlider::valueChanged, &triangle_finder_,
             &TriangleFinderAdapter::on_canny_l_slider_moved);
 
-    //***********************SPINBOX AND SLIDER SYNC************************//
+    /************************SPINBOX AND SLIDER SYNC**************************/
     //link spinbox and slider and vice versa
     connect(ui->adjustCannyLowerHorizontalSlider,
             &QSlider::valueChanged,
@@ -77,12 +77,12 @@ MainWindow::MainWindow(QWidget *parent)
             ui->adjustCannyLowerHorizontalSlider,
             &QSlider::setValue);
 
-    //***************************RESET VIEW**********************************//
+    /****************************RESET VIEW***********************************/
     connect(ui->resetViewPushbutton,
             &QPushButton::clicked, &triangle_finder_,
             &TriangleFinderAdapter::on_reset_view_button_clicked);
 
-    //***********************METHOD SELECTOR RADIO BUTTON*********************//
+    /************************METHOD SELECTOR RADIO BUTTON**********************/
     connect(ui->method1RadioButton,
             &QRadioButton::clicked,
             &triangle_finder_,
@@ -93,7 +93,7 @@ MainWindow::MainWindow(QWidget *parent)
             &triangle_finder_,
             &TriangleFinderAdapter::on_method2_checked);
 
-    //***************************FIND TRIANGLES BUTTON************************//
+    /****************************FIND TRIANGLES BUTTON************************/
     connect(ui->findTrianglesPushButton,
             &QPushButton::clicked,
             [this](){
@@ -101,7 +101,7 @@ MainWindow::MainWindow(QWidget *parent)
     }
     );
 
-    //***************************SHOW STEPS***********************************//
+    /****************************SHOW STEPS***********************************/
     connect(&triangle_finder_,
             &TriangleFinderAdapter::steps_are_ready,
             step_window_,
@@ -117,6 +117,7 @@ MainWindow::MainWindow(QWidget *parent)
              &TriangleFinderAdapter::compare_ready,
              side_by_side_viewer_,
              &SideBySideViewer::on_compare_ready);
+
      /**************************SAMPLE PICKER*********************************/
      connect(ui->samplePickerComboBox,
              static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
