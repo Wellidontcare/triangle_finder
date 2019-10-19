@@ -7,10 +7,10 @@
  * box is checked
  * \param parent
  */
-StepWindow::StepWindow(QWidget *parent) :
-    QWidget(parent),
-    step_tab_widget_(new QTabWidget(this)),
-    master_layout_(new QVBoxLayout)
+StepWindow::StepWindow(QWidget *parent)
+    : QWidget(parent),
+      step_tab_widget_(new QTabWidget(this)),
+      master_layout_(new QVBoxLayout)
 
 {
     setWindowFlag(Qt::Window);

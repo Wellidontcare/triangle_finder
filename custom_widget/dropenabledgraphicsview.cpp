@@ -1,6 +1,7 @@
 #include "dropenabledgraphicsview.h"
 
-DropEnabledGraphicsView::DropEnabledGraphicsView(QWidget* parent) : QGraphicsView(parent)
+DropEnabledGraphicsView::DropEnabledGraphicsView(QWidget* parent)
+    : QGraphicsView(parent)
 {
     setAcceptDrops(true);
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
