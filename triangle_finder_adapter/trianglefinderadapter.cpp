@@ -24,11 +24,17 @@ TriangleFinderAdapter::TriangleFinderAdapter(QWidget* parent)
 void
 TriangleFinderAdapter::on_drag_and_drop(const QString &file_path)
 {
+    if(QFile::exists(file_path)){
     cv::Mat mat = cv::imread(file_path.toStdString());
     model_.load_image(mat);
     current_pixmap_.load(file_path);
     original_pixmap_ = current_pixmap_.copy();
     set_scene();
+    }
+    else {
+        QMessageBox::warning(parent_, "File Error",
+                             "The requested file doesn't exist");
+    }
 }
 
 /*!

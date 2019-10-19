@@ -41,10 +41,9 @@ DropEnabledGraphicsView::dropEvent(QDropEvent *event)
             QString file_path = drop_text.remove(0, FILE_PREFIX);
             current_pixmap_.load(file_path);
             emit drag_and_drop(file_path);
+            return;
         }
-        return;
     }
-    else{
         QMessageBox msgbox("Not an image",
                            "Do you promise to only drop image "
                            "files into the viewer? (*.jpg, *.png, *.bmp)",
@@ -52,7 +51,6 @@ DropEnabledGraphicsView::dropEvent(QDropEvent *event)
 
         msgbox.addButton("I promise!", QMessageBox::YesRole);
         msgbox.exec();
-    }
 }
 
 
