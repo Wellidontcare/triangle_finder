@@ -4,6 +4,12 @@ constexpr int MIN_AREA = 20;
 constexpr int MIN_ARC_LENGTH = 20;
 constexpr double D_EPSILON = 0.04;
 
+/*!
+ * \brief TriangleFinderModel::load_image
+ * Load the current image and generates a downscaled
+ * version for the preview
+ * \param image
+ */
 void
 TriangleFinderModel::load_image(const cv::Mat &image)
 {
@@ -11,6 +17,12 @@ TriangleFinderModel::load_image(const cv::Mat &image)
     update_preview();
 }
 
+/*!
+ * \brief TriangleFinderModel::generate_canny_preview
+ * Runs the Canny Edge detector on the preview image
+ * and returns the result
+ * \return
+ */
 cv::Mat TriangleFinderModel::generate_canny_preview()
 {
     cv::Canny(preview_image_, canny_preview_image_, lower_canny_threshold_,
@@ -18,6 +30,22 @@ cv::Mat TriangleFinderModel::generate_canny_preview()
     return canny_preview_image_;
 }
 
+/*!
+ * \brief TriangleFinderModel::find_triangles_approx_poly
+ * Finds triangles in an image by approximating polygons around
+ * each found contour and selecting contours that can be approximated
+ * by 3 points
+ * \param show_steps
+ * Determines if the returned container holds the steps in a vector
+ * else the steps vector is empty
+ * \return
+ * A container containing a vector of cv::Mats representing the steps,
+ * a cv::Mat representing the image after the algorithm,
+ * a vector of vector of points containing the information of the selected
+ * contours (currently unused), the time taken by the algorithm (time taken
+ * differs if show_steps is true)
+ *
+ */
 TriangleFinderInfoContainer
 TriangleFinderModel::find_triangles_approx_poly(const bool &show_steps)
 {
@@ -94,6 +122,22 @@ TriangleFinderModel::find_triangles_approx_poly(const bool &show_steps)
     return {steps, final_image, triangles, elapsed};
 }
 
+/*!
+ * \brief TriangleFinderModel::find_triangles_shape_factor
+ * Finds triangles by determning the shape factor (area/diamter^2)
+ * of all found contours and selecting contours with a shapefactor
+ * between 0.43 and 0.49 as triangles
+ *
+ * \param show_steps
+ * Determines if the returned container holds the steps in a vector
+ * else the steps vector is empty
+ * \return
+ * A container containing a vector of cv::Mats representing the steps,
+ * a cv::Mat representing the image after the algorithm,
+ * a vector of vector of points containing the information of the selected
+ * contours (currently unused), the time taken by the algorithm (time taken
+ * differs if show_steps is true)
+ */
 TriangleFinderInfoContainer
 TriangleFinderModel::find_triangles_shape_factor(const bool &show_steps)
 {
@@ -164,18 +208,39 @@ TriangleFinderModel::find_triangles_shape_factor(const bool &show_steps)
     return {steps, final_image, triangles, elapsed};
 }
 
+/*!
+ * \brief TriangleFinderModel::set_upper_canny_threshold
+ * Sets the internal state of the upper_canny_threshold
+ * to the provided value
+ * \param val
+ * Value for the upper_canny_threshold should not be smaller than
+ * 0 nor greater than 255
+ */
 void
 TriangleFinderModel::set_upper_canny_threshold(const int &val)
 {
     upper_canny_threshold_ = val;
 }
 
+/*!
+ * \brief TriangleFinderModel::set_lower_canny_threshold
+ * Sets the internal state of the lower_canny_threshold
+ * to the provided value
+ * \param val
+ * Value for the lower_canny_threshold should not be smaller than
+ * 0 nor greater than 255
+ */
 void
 TriangleFinderModel::set_lower_canny_threshold(const int &val)
 {
     lower_canny_threshold_ = val;
 }
 
+/*!
+ * \brief TriangleFinderModel::update_preview
+ * Scales the loaded image to a preview image with a height of 500
+ * and same aspect ratio
+ */
 void
 TriangleFinderModel::update_preview()
 {
@@ -187,6 +252,13 @@ TriangleFinderModel::update_preview()
     cv::resize(original_image_, preview_image_, cv::Size(width, height));
 }
 
+/*!
+ * \brief TriangleFinderModel::diameter
+ * Calcualtes the diameter as the distance between the two furthest
+ * points of the provided conture
+ * \param conture
+ * \return
+ */
 double
 TriangleFinderModel::diameter(const std::vector<cv::Point> &conture) const
 {

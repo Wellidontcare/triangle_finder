@@ -1,5 +1,10 @@
 #include "sidebysideviewer.h"
 
+/*!
+ * \brief SideBySideViewer::SideBySideViewer
+ * Creates the basic ui for the Side by Side Viewer Window
+ * \param parent
+ */
 SideBySideViewer::SideBySideViewer(QWidget *parent)
     : QWidget(parent),
       left_view_(new QGraphicsView),
@@ -33,6 +38,19 @@ SideBySideViewer::SideBySideViewer(QWidget *parent)
     setLayout(master_layout_);
 }
 
+/*!
+ * \brief SideBySideViewer::on_compare_ready
+ * Displays the comparison of both algorithms
+ *  if the compare_ready signal is recveived
+ * \param left_image
+ * Image for the left viewer
+ * \param right_image
+ * Image for the right viewer
+ * \param left_t
+ * Time taken left algorithm
+ * \param right_t
+ * Time taken right algorithm
+ */
 void
 SideBySideViewer::on_compare_ready(const QImage &left_image, const QImage &right_image, const int &left_t, const int &right_t)
 {
@@ -57,6 +75,12 @@ SideBySideViewer::on_compare_ready(const QImage &left_image, const QImage &right
     show();
 }
 
+/*!
+ * \brief SideBySideViewer::resizeEvent
+ * Resizes both images to fill the whole graphicsview
+ * after resizing
+ * \param event
+ */
 void SideBySideViewer::resizeEvent(QResizeEvent *event)
 {
     left_view_->fitInView(left_scene_.itemsBoundingRect(), Qt::KeepAspectRatio);

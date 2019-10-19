@@ -20,7 +20,7 @@ public:
     ~StepWindow() = default;
 
 public slots:
-    void update_steps(const std::vector<QImage>& images);
+    void on_steps_are_ready(const std::vector<QImage>& images);
 };
 
 #endif // STEPWINDOW_H

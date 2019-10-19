@@ -25,7 +25,7 @@ public slots:
 
 signals:
     void successfull_drop_image_data_event(const QVariant& data);
-    void successfull_drop_image_file_event(const QString& path);
+    void drag_and_drop(const QString& path);
 
 protected:
     void resizeEvent(QResizeEvent *event) override;
