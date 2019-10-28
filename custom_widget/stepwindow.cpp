@@ -18,7 +18,7 @@ StepWindow::update_steps(const std::vector<QImage>& images)
     int tab_count = 1;
     step_tab_widget_->clear();
 
-    for(auto image : images){
+    for(const auto& image : images){
         auto widget = new QWidget;
         auto layout = new QVBoxLayout;
         auto graphics_view = new QGraphicsView;

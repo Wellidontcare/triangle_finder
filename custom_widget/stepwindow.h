@@ -17,6 +17,7 @@ class StepWindow : public QWidget
 
 public:
     explicit StepWindow(QWidget *parent = nullptr);
+    StepWindow() = delete;
     ~StepWindow() = default;
 
 public slots:

@@ -104,7 +104,6 @@ TriangleFinderAdapter::on_compare_methods_button_clicked()
     int right_t = data2.time_taken_my;
 
     emit compare_ready(left_image, right_image, left_t, right_t);
-    return;
 }
 
 void

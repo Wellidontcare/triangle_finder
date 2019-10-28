@@ -42,6 +42,8 @@ class TriangleFinderAdapter : public QObject
 public:
     TriangleFinderAdapter(QWidget* parent);
     TriangleFinderAdapter() = default;
+    TriangleFinderAdapter(const TriangleFinderAdapter&) = delete;
+    TriangleFinderAdapter(const TriangleFinderAdapter&&) = delete;
     ~TriangleFinderAdapter() override = default;
 
 public slots:
