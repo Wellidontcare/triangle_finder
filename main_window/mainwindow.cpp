@@ -4,6 +4,11 @@
 constexpr int MAX_CANNY_VAL = 255;
 constexpr int MIN_CANNY_VAL = 0;
 
+/*!
+ * \brief MainWindow::MainWindow
+ * Basic ui setup and connections
+ * \param parent
+ */
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent),
     ui(new Ui::MainWindow),
@@ -28,7 +33,7 @@ MainWindow::MainWindow(QWidget *parent)
     /*************************DRAG AND DROP***********************************/
     //image file drop -> load image
     connect(ui->imageGraphicsView,
-            &DropEnabledGraphicsView::successfull_drop_image_file_event,
+            &DropEnabledGraphicsView::drag_and_drop,
             &triangle_finder_,
             &TriangleFinderAdapter::on_drag_and_drop);
 
@@ -105,7 +110,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(&triangle_finder_,
             &TriangleFinderAdapter::steps_are_ready,
             step_window_,
-            &StepWindow::update_steps);
+            &StepWindow::on_steps_are_ready);
 
     /*****************************COMPARE METHODS*******************************/
     connect(ui->compareMethodsPushButton,

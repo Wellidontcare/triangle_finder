@@ -1,13 +1,18 @@
 #include "dropenabledgraphicsview.h"
 
-DropEnabledGraphicsView::DropEnabledGraphicsView(QWidget* parent) : QGraphicsView(parent)
+DropEnabledGraphicsView::DropEnabledGraphicsView(QWidget* parent)
+    : QGraphicsView(parent)
 {
     setAcceptDrops(true);
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 }
 
-//SLOTS
+/*!
+ * \brief DropEnabledGraphicsView::on_scene_changed
+ * Updates the current view, if the scene_changed signal is received
+ * \param scn
+ */
 void
 DropEnabledGraphicsView::on_scene_changed(QGraphicsScene *scn)
 {
@@ -21,7 +26,12 @@ DropEnabledGraphicsView::dragEnterEvent(QDragEnterEvent *event)
     event->acceptProposedAction();
 }
 
-//currently only drop from file explorer is supported
+/*!
+ * \brief DropEnabledGraphicsView::dropEvent
+ * Emits the dropped file path as a successfull_drop_image_file_event signal
+ * Warns the user and returns if the dropped data doesn't contain a valid path
+ * \param event
+ */
 void
 DropEnabledGraphicsView::dropEvent(QDropEvent *event)
 {   
@@ -31,7 +41,7 @@ DropEnabledGraphicsView::dropEvent(QDropEvent *event)
         if(valid_image_file(drop_text)){
             QString file_path = drop_text.remove(0, FILE_PREFIX);
             current_pixmap_.load(file_path);
-            emit successfull_drop_image_file_event(file_path);
+            emit drag_and_drop(file_path);
             return;
         }
     }
@@ -44,6 +54,13 @@ DropEnabledGraphicsView::dropEvent(QDropEvent *event)
         msgbox.exec();
 }
 
+
+/*!
+ * \brief DropEnabledGraphicsView::valid_image_file
+ * Helper function to check if the file_path is correct
+ * \param file_path
+ * \return
+ */
 bool
 DropEnabledGraphicsView::valid_image_file(const QString &file_path) const
 {
@@ -53,13 +70,18 @@ DropEnabledGraphicsView::valid_image_file(const QString &file_path) const
                 || file_path.endsWith("bmp"));
 }
 
+/*!
+ * \brief DropEnabledGraphicsView::resizeEvent
+ * Fits the contents of the scene to the graphics view
+ * after resizing the window
+ * \param event
+ */
 void
 DropEnabledGraphicsView::resizeEvent(QResizeEvent *event)
 {
     if(scene()) fitInView(scene()->itemsBoundingRect(), Qt::KeepAspectRatio);
     event->accept();
 }
-
 
 void
 DropEnabledGraphicsView::dragMoveEvent(QDragMoveEvent *event)

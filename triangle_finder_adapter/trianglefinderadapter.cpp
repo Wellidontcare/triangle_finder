@@ -1,5 +1,11 @@
 #include "trianglefinderadapter.h"
 
+/*!
+ * \brief TriangleFinderAdapter::TriangleFinderAdapter
+ * Basic constructor
+ * Loads image sample 1 by default
+ * \param parent
+ */
 TriangleFinderAdapter::TriangleFinderAdapter(QWidget* parent)
     : parent_(parent) {
     load_sample(SAMPLE_1);
@@ -8,6 +14,13 @@ TriangleFinderAdapter::TriangleFinderAdapter(QWidget* parent)
 
 
 //***************************DRAG AND DROP***********************************//
+
+/*!
+ * \brief TriangleFinderAdapter::on_drag_and_drop
+ * Load the dropped image into the model and displays it
+ * in the main viewer if an image is dropped into the viewer area
+ * \param file_path
+ */
 void
 TriangleFinderAdapter::on_drag_and_drop(const QString &file_path)
 {
@@ -24,12 +37,22 @@ TriangleFinderAdapter::on_drag_and_drop(const QString &file_path)
     }
 }
 
+/*!
+ * \brief TriangleFinderAdapter::on_method1_checked
+ * Updates the internal selected method state if the
+ * Method 1 radio button was clicked
+ */
 void
 TriangleFinderAdapter::on_method1_checked()
 {
     selected_method_ = 1;
 }
 
+/*!
+ * \brief TriangleFinderAdapter::on_method2_checked
+ * Updates the internal selected method state if the
+ * Method 2 radio button was clicked
+ */
 void
 TriangleFinderAdapter::on_method2_checked()
 {
@@ -38,6 +61,13 @@ TriangleFinderAdapter::on_method2_checked()
 
 
 //***************************CANNY EDGE DETECTOR PREVIEW*********************//
+
+/*!
+ * \brief TriangleFinderAdapter::on_canny_u_slider_moved
+ * Updates the live preview with the current edge detected image
+ * if the upper threshold slider was moved
+ * \param upper
+ */
 void
 TriangleFinderAdapter::on_canny_u_slider_moved(const int& upper)
 {
@@ -48,6 +78,12 @@ TriangleFinderAdapter::on_canny_u_slider_moved(const int& upper)
     set_scene();
 }
 
+/*!
+ * \brief TriangleFinderAdapter::on_canny_l_slider_moved
+ * Updates the live preview with the current edge detected image
+ * if the lower threshold slider was moved
+ * \param lower
+ */
 void
 TriangleFinderAdapter::on_canny_l_slider_moved(const int& lower)
 {
@@ -60,6 +96,14 @@ TriangleFinderAdapter::on_canny_l_slider_moved(const int& lower)
 
 
 /**************************FIND TRIANGLES ADAPTER*****************************/
+
+/*!
+ * \brief TriangleFinderAdapter::on_find_triangles_button_clicked
+ * Starts a algorithm to find triangles based on the internal
+ * selected_method state and displays the result in the main viewer
+ * \param show_steps
+ * The truth value of the show_steps checkbox
+ */
 void
 TriangleFinderAdapter::on_find_triangles_button_clicked(const bool& show_steps)
 {
@@ -91,6 +135,11 @@ TriangleFinderAdapter::on_find_triangles_button_clicked(const bool& show_steps)
     }
 }
 
+/*!
+ * \brief TriangleFinderAdapter::on_compare_methods_button_clicked
+ * Starts both algorithms and sends the result to the side by side viewer
+ * for display
+ */
 void
 TriangleFinderAdapter::on_compare_methods_button_clicked()
 {
@@ -106,6 +155,10 @@ TriangleFinderAdapter::on_compare_methods_button_clicked()
     emit compare_ready(left_image, right_image, left_t, right_t);
 }
 
+/*!
+ * \brief TriangleFinderAdapter::on_reset_view_button_clicked
+ * Resets the main view to the last dropped image / last selected sample
+ */
 void
 TriangleFinderAdapter::on_reset_view_button_clicked()
 {
@@ -114,6 +167,10 @@ TriangleFinderAdapter::on_reset_view_button_clicked()
 }
 
 
+/*!
+ * \brief TriangleFinderAdapter::set_scene
+ * Resets the main view scene with the current pixmap
+ */
 void
 TriangleFinderAdapter::set_scene()
 {
@@ -123,6 +180,13 @@ TriangleFinderAdapter::set_scene()
     emit scene_changed(&current_scene_);
 }
 
+/*!
+ * \brief TriangleFinderAdapter::load_sample
+ * Loads a sample based on index into the model and displays
+ * it in the main viewer
+ * \param idx
+ * The index of the sample starting at 1
+ */
 void
 TriangleFinderAdapter::load_sample(const int &idx)
 {
@@ -140,12 +204,28 @@ TriangleFinderAdapter::load_sample(const int &idx)
     set_scene();
 }
 
+/*!
+ * \brief TriangleFinderAdapter::mat_to_qimage
+ * Converts a cv::Mat to a QImage by copy
+ * \param mat
+ * \param format
+ * QImage format
+ * \return
+ */
 QImage
 TriangleFinderAdapter::mat_to_qimage(const cv::Mat &mat, const QImage::Format& format)
 {
     return QImage(mat.data, mat.cols, mat.rows, static_cast<int>(mat.step), format).copy();
 }
 
+/*!
+ * \brief TriangleFinderAdapter::qimage_to_mat
+ * Converts a QImage to a cv::Mat by copy
+ * \param qimage
+ * \param format
+ * cv::Mat type
+ * \return
+ */
 cv::Mat
 TriangleFinderAdapter::qimage_to_mat(const QImage &qimage, int format)
 {

@@ -1,9 +1,16 @@
 #include "stepwindow.h"
 
-StepWindow::StepWindow(QWidget *parent) :
-    QWidget(parent),
-    step_tab_widget_(new QTabWidget(this)),
-    master_layout_(new QVBoxLayout)
+/*!
+ * \brief StepWindow::StepWindow
+ * Basic ui setup for the Step Window that shows
+ * the steps of the algorithms if the show steps
+ * box is checked
+ * \param parent
+ */
+StepWindow::StepWindow(QWidget *parent)
+    : QWidget(parent),
+      step_tab_widget_(new QTabWidget(this)),
+      master_layout_(new QVBoxLayout)
 
 {
     setWindowFlag(Qt::Window);
@@ -12,8 +19,14 @@ StepWindow::StepWindow(QWidget *parent) :
     setLayout(master_layout_);
 }
 
+/*!
+ * \brief StepWindow::update_steps
+ * Displays the steps of the selected algorithm if the
+ * steps_are_ready signal is received
+ * \param images
+ */
 void
-StepWindow::update_steps(const std::vector<QImage>& images)
+StepWindow::on_steps_are_ready(const std::vector<QImage>& images)
 {
     int tab_count = 1;
     step_tab_widget_->clear();

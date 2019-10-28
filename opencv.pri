@@ -1,12 +1,13 @@
 #Windows
 win32{
-INCLUDEPATH += c:/usr/include #CHANGE ME (Include Directory)
+INCLUDEPATH += c:/usr/include/opencv4 #CHANGE ME (Include Directory)
 
+LIBS += -Lc:/usr/lib/opencv4/x86 #CHANGE ME (OpenCV Debug lib full path)
 Debug : {
-LIBS += -lc:/usr/lib/x86/vc15/lib/opencv_world412d #CHANGE ME (OpenCV Debug lib full path)
+LIBS += -lopencv_world412d
 }
 Release : {
-LIBS += -lc:/usr/lib/x86/vc15/lib/opencv_world412 #CHANGE ME (OpenCV Release lib full path)
+LIBS += -lopencv_world412 #CHANGE ME (OpenCV Release lib full path)
 }
 }
 
