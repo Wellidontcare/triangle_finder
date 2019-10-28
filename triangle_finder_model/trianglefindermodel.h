@@ -27,11 +27,11 @@ public:
     void load_image(const cv::Mat& image);
     cv::Mat generate_canny_preview();
 
-    TriangleFinderInfoContainer find_triangles_approx_poly(const bool& show_steps);
-    TriangleFinderInfoContainer find_triangles_shape_factor(const bool& show_steps);
+    TriangleFinderInfoContainer find_triangles_approx_poly(bool show_steps);
+    TriangleFinderInfoContainer find_triangles_shape_factor(bool show_steps);
 
-    void set_upper_canny_threshold(const int& val);
-    void set_lower_canny_threshold(const int& val);
+    void set_upper_canny_threshold(int val);
+    void set_lower_canny_threshold(int val);
 
 private:
     void update_preview();

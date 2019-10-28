@@ -47,7 +47,7 @@ cv::Mat TriangleFinderModel::generate_canny_preview()
  *
  */
 TriangleFinderInfoContainer
-TriangleFinderModel::find_triangles_approx_poly(const bool &show_steps)
+TriangleFinderModel::find_triangles_approx_poly(bool show_steps)
 {
     cv::RNG rng;
     auto start = std::chrono::high_resolution_clock::now();
@@ -81,7 +81,7 @@ TriangleFinderModel::find_triangles_approx_poly(const bool &show_steps)
         std::vector<cv::Point> approx_contour;
         //epsilon was found by trial and error
         cv::approxPolyDP(contour, approx_contour,
-                         /*epsilon*/D_EPSILON*cv::arcLength(contour, true), true);
+                         D_EPSILON*cv::arcLength(contour, true), true);
         return approx_contour.size() == 3;};
 
     std::copy_if(contours.begin(),
@@ -139,7 +139,7 @@ TriangleFinderModel::find_triangles_approx_poly(const bool &show_steps)
  * differs if show_steps is true)
  */
 TriangleFinderInfoContainer
-TriangleFinderModel::find_triangles_shape_factor(const bool &show_steps)
+TriangleFinderModel::find_triangles_shape_factor(bool show_steps)
 {
     cv::RNG rng;
     auto start = std::chrono::high_resolution_clock::now();
@@ -217,7 +217,7 @@ TriangleFinderModel::find_triangles_shape_factor(const bool &show_steps)
  * 0 nor greater than 255
  */
 void
-TriangleFinderModel::set_upper_canny_threshold(const int &val)
+TriangleFinderModel::set_upper_canny_threshold(int val)
 {
     upper_canny_threshold_ = val;
 }
@@ -231,7 +231,7 @@ TriangleFinderModel::set_upper_canny_threshold(const int &val)
  * 0 nor greater than 255
  */
 void
-TriangleFinderModel::set_lower_canny_threshold(const int &val)
+TriangleFinderModel::set_lower_canny_threshold(int val)
 {
     lower_canny_threshold_ = val;
 }

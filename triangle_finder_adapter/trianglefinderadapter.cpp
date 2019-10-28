@@ -69,7 +69,7 @@ TriangleFinderAdapter::on_method2_checked()
  * \param upper
  */
 void
-TriangleFinderAdapter::on_canny_u_slider_moved(const int& upper)
+TriangleFinderAdapter::on_canny_u_slider_moved(int upper)
 {
     model_.set_upper_canny_threshold(upper);
     current_mat_ = model_.generate_canny_preview();
@@ -85,7 +85,7 @@ TriangleFinderAdapter::on_canny_u_slider_moved(const int& upper)
  * \param lower
  */
 void
-TriangleFinderAdapter::on_canny_l_slider_moved(const int& lower)
+TriangleFinderAdapter::on_canny_l_slider_moved(int lower)
 {
     model_.set_lower_canny_threshold(lower);
     current_mat_ = model_.generate_canny_preview();
@@ -105,7 +105,7 @@ TriangleFinderAdapter::on_canny_l_slider_moved(const int& lower)
  * The truth value of the show_steps checkbox
  */
 void
-TriangleFinderAdapter::on_find_triangles_button_clicked(const bool& show_steps)
+TriangleFinderAdapter::on_find_triangles_button_clicked(bool show_steps)
 {
     TriangleFinderInfoContainer triangle_info;
     if(selected_method_ == 0) {
@@ -188,7 +188,7 @@ TriangleFinderAdapter::set_scene()
  * The index of the sample starting at 1
  */
 void
-TriangleFinderAdapter::load_sample(const int &idx)
+TriangleFinderAdapter::load_sample(int idx)
 {
     QString file_path = ":/resources/sample" + QString::number(idx+1) + ".png";
     QFile tmp_image_file(file_path);
@@ -213,7 +213,7 @@ TriangleFinderAdapter::load_sample(const int &idx)
  * \return
  */
 QImage
-TriangleFinderAdapter::mat_to_qimage(const cv::Mat &mat, const QImage::Format& format)
+TriangleFinderAdapter::mat_to_qimage(const cv::Mat &mat, QImage::Format format)
 {
     return QImage(mat.data, mat.cols, mat.rows, static_cast<int>(mat.step), format).copy();
 }

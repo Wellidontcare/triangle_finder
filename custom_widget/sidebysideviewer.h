@@ -33,7 +33,7 @@ public:
 
 public slots:
     void on_compare_ready(const QImage& left_image, const QImage& right_image,
-                          const int& left_t, const int& right_t);
+                          int left_t, int right_t);
 protected:
     void resizeEvent(QResizeEvent *event) override;
 };

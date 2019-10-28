@@ -53,24 +53,24 @@ public slots:
     void on_method1_checked();
     void on_method2_checked();
 
-    void on_canny_u_slider_moved(const int& upper);
-    void on_canny_l_slider_moved(const int& lower);
+    void on_canny_u_slider_moved(int upper);
+    void on_canny_l_slider_moved(int lower);
 
-    void on_find_triangles_button_clicked(const bool& show_steps);
+    void on_find_triangles_button_clicked(bool show_steps);
     void on_compare_methods_button_clicked();
     void on_reset_view_button_clicked();
-    void load_sample(const int& idx);
+    void load_sample(int idx);
 
 signals:
     void scene_changed(QGraphicsScene*);
     void steps_are_ready(const std::vector<QImage>& steps);
     void compare_ready(const QImage& left_image, const QImage& right_image,
-                       const int& left_t, const int& right_t);
+                       int left_t, int right_t);
 
 private:
     /*conversion functions implementation based on
     https://qtandopencv.blogspot.com/2013/08/how-to-convert-between-cvmat-and-qimage.html*/
-    QImage mat_to_qimage(const cv::Mat& mat, const QImage::Format& format);
+    QImage mat_to_qimage(const cv::Mat& mat, QImage::Format format);
     cv::Mat qimage_to_mat(const QImage& qimage, int format);
 
 

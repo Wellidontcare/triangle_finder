@@ -52,7 +52,7 @@ SideBySideViewer::SideBySideViewer(QWidget *parent)
  * Time taken right algorithm
  */
 void
-SideBySideViewer::on_compare_ready(const QImage &left_image, const QImage &right_image, const int &left_t, const int &right_t)
+SideBySideViewer::on_compare_ready(const QImage &left_image, const QImage &right_image, int left_t, int right_t)
 {
     QPixmap image1 = QPixmap::fromImage(left_image);
     QPixmap image2 = QPixmap::fromImage(right_image);
